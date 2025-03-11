@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fragmentos de Servicios</title>
+  </head>
+  <body>
+    <!-- Fragmento del encabezado de servicios -->
+    <div th:fragment="servicios-header" class="position-relative mb-5">
+      <img
+        th:src="@{/IMG/BLACKROCK_LOGO.png}"
+        class="img-fluid w-100"
+        alt="Black Rock Banco"
+        style="max-height: 300px; object-fit: cover"
+      />
+      <div
+        class="position-absolute top-50 start-50 translate-middle text-center"
+      >
+        <h1
+          class="display-4 fw-bold"
+          style="
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #2d5c5c;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+          "
+        >
+          Conozca Nuestros Servicios
+        </h1>
+      </div>
+    </div>
+
+    <!-- Fragmento de tarjeta de servicio -->
+    <div
+      th:fragment="servicio-card(titulo, imagen, descripcion, url)"
+      class="card h-100 shadow-sm"
+      style="background-color: #f0f8f8"
+    >
+      <div class="card-body text-center p-4">
+        <div class="mb-4">
+          <img
+            th:src="@{${imagen}}"
+            alt="${titulo}"
+            class="rounded-circle"
+            width="150"
+            height="150"
+          />
+        </div>
+        <h3 class="card-title mb-3" th:text="${titulo}">Título del Servicio</h3>
+        <p class="card-text mb-4" th:text="${descripcion}">Descripción</p>
+        <a
+          th:href="@{${url}}"
+          class="btn px-4 py-2 rounded-pill"
+          style="background-color: #c5e0e0"
+          >Conocer más</a
+        >
+      </div>
+    </div>
+
+    <!-- Fragmento de la sección de servicios completa -->
+    <div th:fragment="servicios-section" class="container py-5">
+      <div class="row g-4">
+        <!-- Ahorros -->
+        <div class="col-md-4">
+          <div
+            th:replace="~{servicios/fragmentos :: servicio-card(
+                    titulo='Ahorros', 
+                    imagen='/IMG/AHORRO.jpg', 
+                    descripcion='Soluciones de ahorro personalizadas para hacer crecer su dinero con seguridad y rentabilidad.',
+                    url='/servicios/ahorros')}"
+          ></div>
+        </div>
+
+        <!-- Inversión Digital -->
+        <div class="col-md-4">
+          <div
+            th:replace="~{servicios/fragmentos :: servicio-card(
+                    titulo='Inversión Digital', 
+                    imagen='/IMG/INVERSION_DIGITAL.jpg', 
+                    descripcion='Plataformas digitales para invertir en mercados nacionales e internacionales con asesoría especializada.',
+                    url='/servicios/inversion-digital')}"
+          ></div>
+        </div>
+
+        <!-- Crédito -->
+        <div class="col-md-4">
+          <div
+            th:replace="~{servicios/fragmentos :: servicio-card(
+                    titulo='Crédito', 
+                    imagen='/IMG/CREDITO.jpg', 
+                    descripcion='Soluciones de financiamiento adaptadas a sus necesidades personales o empresariales.',
+                    url='/servicios/credito')}"
+          ></div>
+        </div>
+
+        <!-- Cuentas -->
+        <div class="col-md-4 mx-auto mt-4">
+          <div
+            th:replace="~{servicios/fragmentos :: servicio-card(
+                    titulo='Cuentas', 
+                    imagen='/IMG/CUENTAS.jpg', 
+                    descripcion='Cuentas bancarias con beneficios exclusivos y acceso a nuestra plataforma digital.',
+                    url='/servicios/cuentas')}"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento para la página de ahorro -->
+    <div th:fragment="ahorro-content" class="container py-5">
+      <!-- Navegación -->
+      <div class="mb-4">
+        <a th:href="@{/servicios}" class="text-decoration-none text-secondary">
+          <i class="bi bi-arrow-left"></i> Servicios/Ahorro
+        </a>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="mb-4">Servicios de Ahorros</h1>
+          <p class="mb-4">
+            Invierta en certificados de depósito a plazo en una entidad bancaria
+            con solidez histórica como el Banco Popular. Nuestros productos de
+            ahorro son inembargables excepto por pensión alimenticia. Además,
+            los puede usar como garantía crediticia (Back to Back).
+          </p>
+
+          <!-- Imagen de fondo con texto -->
+          <div class="position-relative my-5">
+            <img
+              th:src="@{/IMG/AHORRO.jpg}"
+              class="img-fluid w-100 rounded"
+              alt="Ahorros"
+              style="max-height: 300px; object-fit: cover"
+            />
+            <div class="position-absolute top-0 end-0 p-4 text-white">
+              <h2>Nuestro Producto:</h2>
+              <ul class="list-unstyled mt-4">
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Manejo de redes
+                  sociales
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Publicidad en
+                  redes sociales
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Diseño y
+                  estrategia de redes sociales
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Formulario de contacto o información adicional -->
+          <div id="contenidoFormulario" class="bg-light p-4 rounded-3 my-5">
+            <h3 class="card-title text-center mb-3">¿Necesita más información?</h3>
+            <p class="card-text text-center mb-4">
+              Déjanos saber tus datos y te enviaremos la información correspondiente.
+            </p>
+
+            <form id="formularioContacto">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    placeholder="Nombre"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="telefono"
+                    placeholder="Teléfono"
+                  />
+                </div>
+              </div>
+              <div class="d-grid col-6 mx-auto">
+                <button
+                  type="submit"
+                  class="btn"
+                  style="background-color: #2d5c5c; color: white"
+                >
+                  Enviar
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Mensaje de agradecimiento (inicialmente oculto) -->
+          <div
+            id="mensajeAgradecimiento"
+            class="bg-light p-4 rounded-3 text-center my-5"
+            style="display: none"
+          >
+            <p class="mb-4 fw-bold">
+              ¡Muchas gracias por enviarnos su solicitud, pronto nos pondremos
+              en contacto contigo!
+            </p>
+            <a th:href="@{/servicios}" class="btn btn-dark px-4 py-2"
+              >Nuestros Servicios</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento para la página de inversión digital -->
+    <div th:fragment="inversion-digital-content" class="container py-5">
+      <!-- Navegación -->
+      <div class="mb-4">
+        <a th:href="@{/servicios}" class="text-decoration-none text-secondary">
+          <i class="bi bi-arrow-left"></i> Servicios/Inversiones Digitales
+        </a>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="mb-4">Inversiones Digitales</h1>
+          <p class="mb-4">
+            Las inversiones digitales se refieren a la práctica de invertir
+            dinero en activos financieros o proyectos relacionados con
+            tecnología, internet y el mundo digital. Estas inversiones se
+            realizan con el objetivo de generar ganancias a través de la
+            apreciación del valor de los activos digitales o la participación en
+            proyectos tecnológicos que tienen el potencial de crecimiento y
+            rentabilidad en el entorno digital.
+          </p>
+
+          <!-- Imagen de fondo con texto -->
+          <div class="position-relative my-5">
+            <img
+              th:src="@{/IMG/INVERSION_DIGITAL.jpg}"
+              class="img-fluid w-100 rounded"
+              alt="Inversión Digital"
+              style="max-height: 300px; object-fit: cover"
+            />
+            <div
+              class="position-absolute top-0 start-0 p-4 text-white"
+              style="
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 0 0 10px 0;
+              "
+            >
+              <h2>Nuestro Producto:</h2>
+              <ul class="list-unstyled mt-4">
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Acciones de
+                  empresas tecnológicas
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Fondos de
+                  inversión en tecnología
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Bienes raíces
+                  digitales
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Criptomonedas ETF
+                  de bitcoin
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mensaje de agradecimiento (inicialmente oculto) -->
+          <div
+            id="mensajeAgradecimiento"
+            class="bg-light p-4 rounded-3 text-center my-5"
+            style="display: none"
+          >
+            <p class="mb-4 fw-bold">
+              ¡Muchas gracias por enviarnos su solicitud, pronto nos pondremos
+              en contacto contigo!
+            </p>
+            <a th:href="@{/servicios}" class="btn btn-dark px-4 py-2"
+              >Nuestros Servicios</a
+            >
+          </div>
+          <!-- Formulario de contacto o información adicional -->
+          <div
+            id="contenidoFormulario"
+            class="bg-light p-4 rounded-3 my-5"
+          >
+            <h3 class="card-title text-center mb-3">
+              ¿Quieres saber más sobre los servicios de inversión digital?
+            </h3>
+            <p class="card-text text-center mb-4">
+              Déjanos saber tus datos y te enviaremos la información
+              correspondiente.
+            </p>
+
+            <form id="formularioContacto">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    placeholder="Nombre"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="telefono"
+                    placeholder="Teléfono"
+                  />
+                </div>
+              </div>
+              <div class="d-grid col-6 mx-auto">
+                <button
+                  type="submit"
+                  class="btn"
+                  style="background-color: #2d5c5c; color: white"
+                >
+                  Enviar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento para la página de crédito -->
+    <div th:fragment="credito-content" class="container py-5">
+      <!-- Navegación -->
+      <div class="mb-4">
+        <a th:href="@{/servicios}" class="text-decoration-none text-secondary">
+          <i class="bi bi-arrow-left"></i> Servicios/Créditos
+        </a>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="mb-4">Créditos</h1>
+          <p class="mb-4">
+            Banco Black Rock se complace en ofrecerle una amplia gama de
+            créditos diseñados para satisfacer sus necesidades y mejorar su
+            bienestar. Estamos a su disposición para brindarle soluciones
+            financieras que se adapten a sus objetivos y le proporcionen la
+            tranquilidad que busca.
+          </p>
+
+          <p class="mb-5">
+            Descubra la opción de crédito del Banco Black Rock que mejor se
+            ajuste a sus necesidades, impulsando así su bienestar financiero.
+          </p>
+
+          <!-- Imagen de fondo con texto -->
+          <div class="position-relative my-5">
+            <img
+              th:src="@{/IMG/CREDITO.jpg}"
+              class="img-fluid w-100 rounded"
+              alt="Crédito"
+              style="max-height: 300px; object-fit: cover"
+            />
+            <div
+              class="position-absolute top-0 start-0 p-4 text-white"
+              style="
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 0 0 10px 0;
+              "
+            >
+              <h2>Nuestro Producto:</h2>
+              <ul class="list-unstyled mt-4">
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Bienestar Social
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Crédito para
+                  Vivienda
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Proyectos
+                  Inmobiliarios
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Soluciones
+                  Personales con Garantía
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> BR Auto
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mensaje de agradecimiento (inicialmente oculto) -->
+          <div
+            id="mensajeAgradecimiento"
+            class="bg-light p-4 rounded-3 text-center my-5"
+            style="display: none"
+          >
+            <p class="mb-4 fw-bold">
+              ¡Muchas gracias por enviarnos su solicitud, pronto nos pondremos
+              en contacto contigo!
+            </p>
+            <a th:href="@{/servicios}" class="btn btn-dark px-4 py-2"
+              >Nuestros Servicios</a
+            >
+          </div>
+        </div>
+
+          <!-- Formulario de contacto o información adicional -->
+          <div
+            id="contenidoFormulario"
+            class="bg-light p-4 rounded-3 my-5"
+          >
+            <h3 class="card-title text-center mb-3">
+              ¿Quieres saber más sobre los servicios de crédito?
+            </h3>
+            <p class="card-text text-center mb-4">
+              Déjanos saber tus datos y te enviaremos la información
+              correspondiente.
+            </p>
+
+            <form id="formularioContacto">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    placeholder="Nombre"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="telefono"
+                    placeholder="Teléfono"
+                  />
+                </div>
+              </div>
+              <div class="d-grid col-6 mx-auto">
+                <button
+                  type="submit"
+                  class="btn"
+                  style="background-color: #2d5c5c; color: white"
+                >
+                  Enviar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento para la página de cuentas -->
+    <div th:fragment="cuentas-content" class="container py-5">
+      <!-- Navegación -->
+      <div class="mb-4">
+        <a th:href="@{/servicios}" class="text-decoration-none text-secondary">
+          <i class="bi bi-arrow-left"></i> Servicios/Cuenta
+        </a>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="mb-4">Cuenta</h1>
+          <p class="mb-4">
+            Las Cuentas del Banco Black Rock está diseñada para ofrecerte una
+            experiencia bancaria completa y personalizada. Con esta cuenta,
+            disfrutarás de una serie de beneficios y servicios que se adaptan a
+            tus necesidades financieras diarias.
+          </p>
+
+          <!-- Imagen de fondo con texto -->
+          <div class="position-relative my-5">
+            <img
+              th:src="@{/IMG/CUENTAS.jpg}"
+              class="img-fluid w-100 rounded"
+              alt="Cuentas"
+              style="max-height: 300px; object-fit: cover"
+            />
+            <div
+              class="position-absolute top-0 start-0 p-4 text-white"
+              style="
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 0 0 10px 0;
+              "
+            >
+              <h2>Nuestro Producto:</h2>
+              <ul class="list-unstyled mt-4">
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Cuenta Corriente
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Cuenta de Ahorros
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Cuenta para
+                  extranjeros
+                </li>
+                <li class="mb-3">
+                  <i class="bi bi-check-circle-fill me-2"></i> Cuenta de Nómina
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mensaje de agradecimiento (inicialmente oculto) -->
+          <div
+            id="mensajeAgradecimiento"
+            class="bg-light p-4 rounded-3 text-center my-5"
+            style="display: none"
+          >
+            <p class="mb-4 fw-bold">
+              ¡Muchas gracias por enviarnos su solicitud, pronto nos pondremos
+              en contacto contigo!
+            </p>
+            <a th:href="@{/servicios}" class="btn btn-dark px-4 py-2"
+              >Nuestros Servicios</a
+            >
+          </div>
+        </div>
+
+          <!-- Formulario de contacto o información adicional -->
+          <div
+            id="contenidoFormulario"
+            class="bg-light p-4 rounded-3 my-5"
+          >
+            <h3 class="card-title text-center mb-3">
+              ¿Quieres saber más sobre los servicios de cuentas?
+            </h3>
+            <p class="card-text text-center mb-4">
+              Déjanos saber tus datos y te enviaremos la información
+              correspondiente.
+            </p>
+
+            <form id="formularioContacto">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    placeholder="Nombre"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="telefono"
+                    placeholder="Teléfono"
+                  />
+                </div>
+              </div>
+              <div class="d-grid col-6 mx-auto">
+                <button
+                  type="submit"
+                  class="btn"
+                  style="background-color: #2d5c5c; color: white"
+                >
+                  Enviar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

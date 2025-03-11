@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{layout/plantilla :: head}"></head>
+  <body>
+    <!-- Incluir el header -->
+    <header th:replace="~{layout/plantilla :: header}"></header>
+
+    <!-- Incluir el contenido de inversión digital desde fragmentos -->
+    <main
+      th:replace="~{servicios/fragmentos :: inversion-digital-content}"
+    ></main>
+
+    <!-- Incluir el footer -->
+    <footer th:replace="~{layout/plantilla :: footer}"></footer>
+
+    <!-- Incluir el script de rutinas.js -->
+    <script th:src="@{/js/rutinas.js}"></script>
+  </body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Black Rock Banco</title>
+    <!-- CSS de Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Iconos de Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- CSS personalizado opcional -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Fragmento de cabecera -->
+    <header th:fragment="header">
+      <nav class="navbar navbar-expand-lg" style="background-color: #2d5c5c">
+        <div class="container">
+          <!-- Logotipo -->
+          <a class="navbar-brand" th:href="@{/}">
+            <img
+              th:src="@{/IMG/BLACKROCK_PRINCIPAL.png}"
+              alt="Black Rock Banco"
+              width="60"
+              height="60"
+              class="rounded-circle"
+            />
+            <span class="text-white ms-2">Black Rock Banco</span>
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Elementos de navegación (Centro) -->
+          <div
+            class="collapse navbar-collapse justify-content-center"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-white" th:href="@{/}">Inicio</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle text-white"
+                  th:href="@{/servicios}"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Servicios
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" th:href="@{/servicios/ahorros}">Ahorros</a></li>
+                  <li><a class="dropdown-item" th:href="@{/servicios/inversion-digital}">Inversión Digital</a></li>
+                  <li><a class="dropdown-item" th:href="@{/servicios/credito}">Crédito</a></li>
+                  <li><a class="dropdown-item" th:href="@{/servicios/cuentas}">Cuentas</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" th:href="@{/servicios}">Ver todos los servicios</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle text-white"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  Productos
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Producto 1</a></li>
+                  <li><a class="dropdown-item" href="#">Producto 2</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">Nuestros Clientes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">Contáctenos</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Iconos de usuario y carrito (Derecha) -->
+          <div class="d-flex">
+            <a href="#" class="me-3 text-white">
+              <i class="bi bi-person-circle fs-4"></i>
+            </a>
+            <a href="#" class="text-white position-relative">
+              <i class="bi bi-cart-fill fs-4"></i>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                0
+              </span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Fragmento de sección principal -->
+    <section th:fragment="hero" class="hero-section">
+      <!-- Sección de Bienvenida -->
+      <div class="position-relative">
+        <img
+          th:src="@{/IMG/BLACKROCK_PRINCIPAL.png}"
+          class="img-fluid w-100"
+          alt="Black Rock Banco"
+          style="max-height: 500px; object-fit: cover"
+        />
+        <div
+          class="position-absolute top-50 start-50 translate-middle text-center text-white"
+        >
+          <h1
+            class="display-4 fw-bold"
+            style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)"
+          >
+            Bienvenidos a Black Rock Banco
+          </h1>
+        </div>
+      </div>
+
+      <!-- Sección de Quiénes Somos -->
+      <div class="container my-5">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h2 class="text-center mb-4">¿QUIÉNES SOMOS?</h2>
+            <p class="text-justify">
+              Banco Black Rock es una entidad financiera que combina innovación,
+              asesoría personalizada y soluciones de financiamiento para ofrecer
+              un enfoque integral a negocios y emprendedores. Nacimos con la
+              misión de potenciar el crecimiento financiero de empresas
+              emergentes, proporcionando estrategias creativas y herramientas
+              financieras que destacan en el mercado competitivo actual.
+              Fundamentamos nuestra conexión con comercios nacionales e
+              internacionales, trabajamos para transformar ideas en realidades
+              financieras que conectan con las audiencias y fortalecen el
+              desarrollo de nuestros clientes.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <img
+              th:src="@{/IMG/QUIENES_SOMOS.jpg}"
+              class="img-fluid rounded shadow"
+              alt="Quiénes Somos"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de En Qué Creemos -->
+      <div class="bg-light py-5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <img
+                th:src="@{/IMG/EN_QUE_CREEMOS.png}"
+                class="img-fluid rounded shadow"
+                alt="En Qué Creemos"
+              />
+            </div>
+            <div class="col-md-6">
+              <h2 class="text-center mb-4">¿EN QUÉ CREEMOS?</h2>
+              <p class="text-justify">
+                  En Banco Black Rock creemos en el poder de la innovación
+                  financiera y en el impacto de un buen asesoramiento y en la
+                  importancia de construir relaciones auténticas. Confiamos en
+                  que cada negocio tiene potencial para crecer que nos estimula
+                  a ofrecer estrategias y personalizar la experiencia en
+                  colaboración. Cuidamos del detalle, nos enfocamos en el
+                  detalle y en las soluciones financieras como herramientas para
+                  inspirar, conectar y transformar. Nos sentimos orgullosos de
+                  ayudar a emprendedores a alcanzar sus metas, combinando
+                  innovación y calidad para crear oportunidades que dejen
+                  huella. Por encima de todo, creemos que el crecimiento
+                  financiero no es solo un logro, es una experiencia compartida.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sección de Estadísticas -->
+      <div class="container text-center py-5">
+        <div class="row">
+          <div class="col-md-4">
+            <h2 class="display-4 fw-bold">30+</h2>
+            <p>Años de Experiencia</p>
+          </div>
+          <div class="col-md-4">
+            <h2 class="display-4 fw-bold">5000+</h2>
+            <p>Proyectos Ejecutados</p>
+          </div>
+          <div class="col-md-4">
+            <h2 class="display-4 fw-bold">2000+</h2>
+            <p>Clientes Principales</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sección de Registro -->
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="bg-light p-5 rounded-3 shadow-sm" style="background-color: #f0f8f8 !important;">
+              <h2 class="text-center mb-4">¿Aún no tienes una cuenta?</h2>
+              <p class="text-center mb-4">
+                Crea tu propia cuenta e inscribe tu negocio o empresa con nosotros<br>
+                para una experiencia más personalizada.
+              </p>
+              <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="#" class="btn btn-lg px-4 py-2 rounded-pill" style="background-color: #c5e0e0;">¡Registrarme!</a>
+              </div>
+              <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="#" class="btn btn-lg px-4 py-2 rounded-pill" style="background-color: #c5e0e0;">¡Ya tengo una cuenta!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sección de Información del Proyecto -->
+      <div class="container py-5">
+        <h2 class="text-center mb-5">Información del Proyecto</h2>
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #c5e0e0;">
+              <div class="card-body text-center py-4">
+                <h3 class="card-title">Card Sorting</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #c5e0e0;">
+              <div class="card-body text-center py-4">
+                <h3 class="card-title">Matriz de Resultados</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm" style="background-color: #c5e0e0;">
+              <div class="card-body text-center py-4">
+                <h3 class="card-title">Site Map</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fragmento de pie de página -->
+    <footer th:fragment="footer" class="text-white mt-5 py-5" style="background-color: #2d5c5c;">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center text-md-start mb-4 mb-md-0">
+            <img
+              th:src="@{/IMG/BLACKROCK_PRINCIPAL.png}"
+              alt="Black Rock Banco"
+              width="180"
+              height="180"
+              class="rounded"
+            />
+          </div>
+          <div class="col-md-8 text-center text-md-end">
+            <h4 class="mb-4">Buscanos en:</h4>
+            <div class="d-flex justify-content-center justify-content-md-end gap-4 mb-4">
+              <a href="#" class="text-white fs-3">
+                <i class="bi bi-facebook"></i>
+              </a>
+              <a href="#" class="text-white fs-3">
+                <i class="bi bi-instagram"></i>
+              </a>
+              <a href="#" class="text-white fs-3">
+                <i class="bi bi-whatsapp"></i>
+              </a>
+              <a href="#" class="text-white fs-3">
+                <i class="bi bi-envelope-fill"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <p class="mb-0">Banco Black Rock © 2025 | TODOS LOS DERECHOS RESERVADOS</p>
+          </div>
+        </div>
+      </div>
+      <!-- JavaScript de Bootstrap con Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </footer>
+  </body>
+</html>
