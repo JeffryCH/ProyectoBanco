@@ -1,16 +1,11 @@
 <!DOCTYPE html>
-<html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/plantilla}"
->
-  <head>
-    <title>Nuestros Clientes</title>
-    <meta charset="UTF-8" />
-  </head>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{layout/plantilla :: head}"></head>
   <body>
-    <section layout:fragment="content">
+    <!-- Incluir el header -->
+    <header th:replace="~{layout/plantilla :: header}"></header>
+
+    <main>
       <!-- Sección del Encabezado -->
       <div th:replace="~{nuestros_clientes/fragmentos :: headerClientes}"></div>
 
@@ -19,6 +14,12 @@
 
       <!-- Sección de Testimonios -->
       <div th:replace="~{nuestros_clientes/fragmentos :: testimonial}"></div>
-    </section>
+
+      <!-- Sección de Registro -->
+      <div th:replace="~{nuestros_clientes/fragmentos :: registro}"></div>
+    </main>
+
+    <!-- Incluir el footer -->
+    <footer th:replace="~{layout/plantilla :: footer}"></footer>
   </body>
 </html>

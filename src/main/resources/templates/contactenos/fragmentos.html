@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Fragmentos Contáctenos</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <!-- Sección del Encabezado -->
+    <section
+      th:fragment="headerContacto"
+      class="position-relative d-flex align-items-center justify-content-center"
+      th:style="'min-height: 300px; background: url(' + @{/IMG/CONTACTENOS.jpg} + ') center center no-repeat; background-size: cover;'"
+    >
+      <div class="text-center text-white">
+        <h1
+          class="display-4 fw-bold"
+          style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)"
+        >
+          ¡Conozcámonos!
+        </h1>
+      </div>
+    </section>
+
+    <!-- Sección de Botones de Contacto -->
+    <section th:fragment="botonesContacto" class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-5">¡A solo un clic!</h2>
+        <div class="row justify-content-center g-4">
+          <!-- WhatsApp -->
+          <div class="col-md-4">
+            <a href="#" class="text-decoration-none">
+              <div
+                class="card h-100 text-center p-4"
+                style="background-color: #c5e0e0"
+              >
+                <div class="card-body">
+                  <i class="bi bi-whatsapp fs-1 mb-3"></i>
+                  <h3 class="card-title">Escríbenos por WhatsApp</h3>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- Correo -->
+          <div class="col-md-4">
+            <a href="#" class="text-decoration-none">
+              <div
+                class="card h-100 text-center p-4"
+                style="background-color: #c5e0e0"
+              >
+                <div class="card-body">
+                  <i class="bi bi-envelope fs-1 mb-3"></i>
+                  <h3 class="card-title">Escríbenos por correo</h3>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- Instagram -->
+          <div class="col-md-4">
+            <a href="#" class="text-decoration-none">
+              <div
+                class="card h-100 text-center p-4"
+                style="background-color: #c5e0e0"
+              >
+                <div class="card-body">
+                  <i class="bi bi-instagram fs-1 mb-3"></i>
+                  <h3 class="card-title">Escríbenos por Instagram</h3>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Formulario de Contacto -->
+    <section th:fragment="formularioContacto" class="py-5 bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card shadow">
+              <div class="card-body p-5">
+                <h2 class="text-center mb-4">Formulario de Contacto</h2>
+                <form>
+                  <div class="mb-3">
+                    <label for="nombre" class="form-label"
+                      >Nombre completo</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nombre"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label"
+                      >Correo electrónico</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="asunto" class="form-label">Asunto</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="asunto"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea
+                      class="form-control"
+                      id="mensaje"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="submit"
+                      class="btn btn-lg px-4 py-2 rounded-pill"
+                      style="background-color: #2d5c5c; color: white"
+                    >
+                      Enviar mensaje
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

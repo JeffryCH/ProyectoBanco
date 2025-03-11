@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Fragmentos Nuestros Clientes</title>
     <meta charset="UTF-8" />
   </head>
   <body>
     <!-- Sección del Encabezado -->
-    <section th:fragment="headerClientes" class="py-4 bg-light">
-      <div class="container">
-        <h1 class="display-4 text-center">Nuestros Clientes</h1>
+    <section
+      th:fragment="headerClientes"
+      class="position-relative d-flex align-items-center justify-content-center"
+      th:style="'min-height: 300px; background: url(' + @{/IMG/NUESTROS_CLIENTES.jpg} + ') center center no-repeat; background-size: cover;'"
+    >
+      <div class="text-center text-white">
+        <h1
+          class="display-4 fw-bold"
+          style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)"
+        >
+          Nuestros Clientes
+        </h1>
       </div>
     </section>
 
@@ -18,91 +27,118 @@
         <div class="row g-4">
           <!-- Logo de Toyota -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/TOYOTA_LOGO.jpg}"
                 class="card-img-top p-3"
                 alt="Toyota Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de Café KICHA -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/CAFE_KICHA.jpg}"
                 class="card-img-top p-3"
                 alt="Café KICHA Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de P&G -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/P&G_LOGO.jpg}"
                 class="card-img-top p-3"
                 alt="P&G Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de Microsoft -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/MICROSOFT_LOGO.jpg}"
                 class="card-img-top p-3"
                 alt="Microsoft Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de INA -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/INA_LOGO.png}"
                 class="card-img-top p-3"
                 alt="INA Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de Dos Pinos -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/DOSPINOS_LOGO.png}"
                 class="card-img-top p-3"
                 alt="Dos Pinos Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo del Banco Mundial -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/BANCOMUNDIAL_LOGO.jpg}"
                 class="card-img-top p-3"
                 alt="Banco Mundial Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de Scotiabank -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/SCOTIABANK_LOGO.png}"
                 class="card-img-top p-3"
                 alt="Scotiabank Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
           <!-- Logo de Avianca -->
           <div class="col-md-4">
-            <div class="card h-100">
+            <div
+              class="card h-100 d-flex align-items-center justify-content-center"
+            >
               <img
                 th:src="@{/IMG/AVIANCA_LOGO.jpg}"
                 class="card-img-top p-3"
                 alt="Avianca Logo"
+                style="object-fit: contain; max-height: 200px; width: auto"
               />
             </div>
           </div>
@@ -114,17 +150,18 @@
     <section th:fragment="testimonial" class="py-5 bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 position-relative">
             <img
               th:src="@{/IMG/CAFE_KICHA.jpg}"
               class="img-fluid"
               alt="Café KICHA"
+              style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%)"
             />
           </div>
           <div class="col-md-6 d-flex align-items-center">
-            <div>
-              <h2 class="mb-4">Café KICHA</h2>
-              <p class="lead">
+            <div class="bg-white p-4 shadow-sm rounded">
+              <h2 class="mb-4 text-dark">Café KICHA</h2>
+              <p class="lead text-muted">
                 "Banco Black Rock nos permitió alcanzar nuevas alturas con su
                 financiamiento excepcional. No solo nos ayudaron a encontrar
                 nuestra identidad financiera, sino que también nos apoyaron en
@@ -134,6 +171,37 @@
                 comercios, tanto nacionales como extranjeros. Mi confianza está
                 puesta en Banco Black Rock."
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Registro -->
+    <section th:fragment="registro" class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="bg-light p-5 rounded-3 shadow-sm text-center">
+              <h2 class="mb-4">¿Aún no eres parte de nuestra familia?</h2>
+              <p class="mb-4">
+                Crea tu propia cuenta e inscribe tu negocio o empresa con
+                nosotros para una experiencia más personalizada.
+              </p>
+              <div class="d-flex flex-column align-items-center gap-3">
+                <a
+                  th:href="@{/iniciosesion/registro}"
+                  class="btn btn-lg px-4 py-2 rounded-pill"
+                  style="background-color: #c5e0e0"
+                  >¡Registrarme!</a
+                >
+                <a
+                  th:href="@{/iniciosesion/login}"
+                  class="btn btn-lg px-4 py-2 rounded-pill"
+                  style="background-color: #c5e0e0"
+                  >¡Ya tengo una cuenta!</a
+                >
+              </div>
             </div>
           </div>
         </div>

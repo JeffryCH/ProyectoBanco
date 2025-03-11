@@ -4,38 +4,44 @@ Este repositorio contiene el código fuente para la aplicación web del Banco Bl
 
 ## Cambios Recientes
 
-### Nueva Sección de Nuestros Clientes
+### Nueva Sección de Contáctenos
 
-Se ha implementado una nueva sección que muestra los clientes principales del banco:
+Se ha implementado una nueva sección de contacto con:
 
-1. **Galería de Clientes**: Cuadrícula responsiva 3x3 mostrando los logos de clientes importantes:
+1. **Encabezado Adaptativo**:
 
-   - Toyota
-   - Café KICHA
-   - P&G
-   - Microsoft
-   - INA
-   - Dos Pinos
-   - Banco Mundial
-   - Scotiabank
-   - Avianca
+   - Imagen de fondo responsiva
+   - Título "¡Conozcámonos!" con diseño moderno
 
-2. **Sección de Testimonios**: Área dedicada a mostrar testimonios de clientes satisfechos, comenzando con Café KICHA.
+2. **Opciones de Contacto**:
 
-### Sistema de Autenticación
+   - Botones para WhatsApp, correo e Instagram
+   - Diseño intuitivo y amigable
 
-Se han implementado nuevas funcionalidades de autenticación:
+3. **Formulario de Contacto**:
+   - Campos para información personal
+   - Validación de datos
+   - Diseño responsivo y accesible
 
-1. **Formulario de Registro**:
+### Mejoras en Sección Nuestros Clientes
 
-   - Registro de nuevos usuarios
-   - Validación de campos
-   - Interfaz intuitiva y responsiva
+Se ha actualizado la sección de clientes con:
 
-2. **Inicio de Sesión**:
-   - Sistema seguro de autenticación
-   - Manejo de sesiones de usuario
-   - Interfaz amigable para el usuario
+1. **Nuevo Encabezado**:
+
+   - Imagen de fondo adaptativa
+   - Título destacado con efectos visuales
+
+2. **Galería de Clientes Mejorada**:
+
+   - Logos centrados y optimizados
+   - Cuadrícula responsiva 3x3
+   - Mejor visualización en dispositivos móviles
+
+3. **Sección de Testimonios**:
+   - Diseño moderno con efecto diagonal
+   - Testimonio destacado de Café KICHA
+   - Mejor legibilidad y presentación
 
 ### Actualización de Sintaxis Thymeleaf
 
@@ -71,11 +77,20 @@ Estas mejoras se han aplicado a todos los formularios en las siguientes seccione
 El proyecto sigue una estructura estándar de Spring Boot:
 
 - `src/main/java/com/ProyectoBanco/`: Código fuente Java
+  - `controller/`: Controladores de Spring MVC
+    - `InicioSesionController.java`: Manejo de autenticación
+    - `NuestrosClientesController.java`: Gestión de sección de clientes
+    - `ContactenosController.java`: Gestión de sección de contacto
 - `src/main/resources/templates/`: Plantillas Thymeleaf
+  - `layout/`: Plantillas base y componentes comunes
   - `iniciosesion/`: Plantillas para registro y login
   - `nuestros_clientes/`: Plantillas para la sección de clientes
+  - `contactenos/`: Plantillas para la sección de contacto
   - `servicios/`: Plantillas para servicios bancarios
-- `src/main/resources/static/`: Recursos estáticos (CSS, JS, imágenes)
+- `src/main/resources/static/`: Recursos estáticos
+  - `css/`: Hojas de estilo
+  - `IMG/`: Imágenes del sitio
+  - `js/`: Scripts de JavaScript
 
 ## Tecnologías Utilizadas
 
