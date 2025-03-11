@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/plantilla}"
+>
+  <head>
+    <title>Nuestros Clientes</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <!-- Sección del Encabezado -->
+      <div th:replace="~{nuestros_clientes/fragmentos :: headerClientes}"></div>
+
+      <!-- Sección de la Cuadrícula de Clientes -->
+      <div th:replace="~{nuestros_clientes/fragmentos :: clientGrid}"></div>
+
+      <!-- Sección de Testimonios -->
+      <div th:replace="~{nuestros_clientes/fragmentos :: testimonial}"></div>
+    </section>
+  </body>
+</html>

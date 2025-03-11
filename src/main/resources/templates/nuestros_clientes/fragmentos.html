@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Fragmentos Nuestros Clientes</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <!-- Sección del Encabezado -->
+    <section th:fragment="headerClientes" class="py-4 bg-light">
+      <div class="container">
+        <h1 class="display-4 text-center">Nuestros Clientes</h1>
+      </div>
+    </section>
+
+    <!-- Sección de la Cuadrícula de Clientes -->
+    <section th:fragment="clientGrid" class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Logo de Toyota -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/TOYOTA_LOGO.jpg}"
+                class="card-img-top p-3"
+                alt="Toyota Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de Café KICHA -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/CAFE_KICHA.jpg}"
+                class="card-img-top p-3"
+                alt="Café KICHA Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de P&G -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/P&G_LOGO.jpg}"
+                class="card-img-top p-3"
+                alt="P&G Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de Microsoft -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/MICROSOFT_LOGO.jpg}"
+                class="card-img-top p-3"
+                alt="Microsoft Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de INA -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/INA_LOGO.png}"
+                class="card-img-top p-3"
+                alt="INA Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de Dos Pinos -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/DOSPINOS_LOGO.png}"
+                class="card-img-top p-3"
+                alt="Dos Pinos Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo del Banco Mundial -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/BANCOMUNDIAL_LOGO.jpg}"
+                class="card-img-top p-3"
+                alt="Banco Mundial Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de Scotiabank -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/SCOTIABANK_LOGO.png}"
+                class="card-img-top p-3"
+                alt="Scotiabank Logo"
+              />
+            </div>
+          </div>
+          <!-- Logo de Avianca -->
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img
+                th:src="@{/IMG/AVIANCA_LOGO.jpg}"
+                class="card-img-top p-3"
+                alt="Avianca Logo"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Testimonios -->
+    <section th:fragment="testimonial" class="py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <img
+              th:src="@{/IMG/CAFE_KICHA.jpg}"
+              class="img-fluid"
+              alt="Café KICHA"
+            />
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <div>
+              <h2 class="mb-4">Café KICHA</h2>
+              <p class="lead">
+                "Banco Black Rock nos permitió alcanzar nuevas alturas con su
+                financiamiento excepcional. No solo nos ayudaron a encontrar
+                nuestra identidad financiera, sino que también nos apoyaron en
+                cada paso del camino. Nuestros clientes han notado una gran
+                diferencia en la calidad de nuestros servicios. Hemos logrado
+                expandir nuestro alcance, conectando con una mayor variedad de
+                comercios, tanto nacionales como extranjeros. Mi confianza está
+                puesta en Banco Black Rock."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
