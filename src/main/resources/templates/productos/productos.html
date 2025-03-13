@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}"></head>
+  <body>
+    <!-- Incluir el header -->
+    <header th:replace="~{layout/plantilla :: header}"></header>
+
+    <main>
+      <!-- Sección del Encabezado -->
+      <div th:replace="~{productos/fragmentos :: headerProductos}"></div>
+
+      <!-- Sección de la Cuadrícula de Clientes -->
+      <div th:replace="~{productos/fragmentos :: productosGrid}"></div>
+
+    <!-- Incluir el footer -->
+    <footer th:replace="~{layout/plantilla :: footer}"></footer>
+  </body>
+</html>

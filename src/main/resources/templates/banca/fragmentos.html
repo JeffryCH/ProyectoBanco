@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Fragmentos para banca en linea</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:fragment="bienvenida-header" class="position-relative mb-5">
+            <img
+                th:src="@{/IMG/BLACKROCK_LOGO.png}"
+                class="img-fluid w-100"
+                alt="Black Rock Banco"
+                style="max-height: 150px; object-fit: cover"
+                />
+            <div
+                class="position-absolute top-50 start-50 translate-middle text-center"
+                >
+                <h1
+                    class="display-4 fw-bold"
+                    style="
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+                    color: #ffffff;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    "
+                    >
+                    ¡Bienvenido!
+                </h1>
+            </div>
+        </div>
+
+
+
+        <!-- Fragmento del portal de banca en línea -->
+        <div th:fragment="portal-banca" class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="text-center mb-4">Bienvenido, <span th:text="${nombreUsuario}"></span>!</h2>
+                            <p class="text-center text-muted">Última conexión exitosa: <span th:text="${ultimaAcceso}"></span></p>
+
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs" id="bancaTabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="cuentas-tab" data-bs-toggle="tab" href="#cuentas">Cuentas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="servicios-tab" data-bs-toggle="tab" href="#servicios">Servicios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="transacciones-tab" data-bs-toggle="tab" href="#transacciones">Transacciones</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content mt-3">
+                                <!-- Tab Cuentas -->
+                                <div class="tab-pane fade show active" id="cuentas">
+                                    <h4>Tus Cuentas</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de Cuenta</th>
+                                                <th>Tipo</th>
+                                                <th>Saldo</th>
+                                                <th>Moneda</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody th:if="${cuentas != null}">
+                                            <tr th:each="cuenta : ${cuentas}">
+                                                <td th:text="${cuenta.numeroCuenta}"></td>
+                                                <td th:text="${cuenta.tipoCuenta}"></td>
+                                                <td th:text="${cuenta.saldo}"></td>
+                                                <td th:text="${cuenta.moneda}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Tab Servicios -->
+                                <div class="tab-pane fade" id="servicios">
+                                    <h4>Servicios Disponibles</h4>
+                                    <div class="d-grid gap-2">
+                                        <a href="#" class="btn btn-warning">Cambio de Contraseña</a>
+
+                                    </div>
+                                </div>
+
+                                <!-- Tab Transacciones -->
+                                <div class="tab-pane fade" id="transacciones">
+                                    <h4>Historial de Transacciones</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Descripción</th>
+                                                <th>Monto</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="transaccion : ${transacciones}">
+                                                <td th:text="${transaccion.FechaHora}"></td>
+                                                <td th:text="${transaccion.descripcion}"></td>
+                                                <td th:text="${transaccion.monto}"></td>
+                                                <td th:text="${transaccion.tipoTransaccion}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> <!-- Fin Tab Content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
