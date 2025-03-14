@@ -20,13 +20,5 @@
 
     <!-- Incluir el fragmento del script de registro -->
     <div th:replace="~{iniciosesion/fragmentos :: script-registro}"></div>
-
-    <!-- Inicializar el script para verificar el estado inicial -->
-    <script>
-      // Llamar a la función al cargar la página para manejar el estado inicial
-      document.addEventListener("DOMContentLoaded", function () {
-        mostrarCampoNegocio();
-      });
-    </script>
   </body>
 </html>

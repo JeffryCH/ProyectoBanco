@@ -1,101 +1,126 @@
 # Proyecto Banco Black Rock
 
-Este repositorio contiene el código fuente para la aplicación web del Banco Black Rock, desarrollada con Spring Boot y Thymeleaf.
+Este repositorio contiene el código fuente para la aplicación web del Banco Black Rock, un sistema bancario completo desarrollado con Spring Boot y Thymeleaf. El proyecto implementa una arquitectura MVC (Modelo-Vista-Controlador) para ofrecer una experiencia de usuario intuitiva y funcionalidades bancarias completas.
 
-## Cambios Recientes
+## Características Principales
 
-### Nueva Sección de Contáctenos
+### Gestión de Clientes y Cuentas
 
 Se ha implementado una nueva sección de contacto con:
 
-1. **Encabezado Adaptativo**:
+1. **Gestión de Clientes y Cuentas**:
 
-   - Imagen de fondo responsiva
-   - Título "¡Conozcámonos!" con diseño moderno
+   - Registro de nuevos clientes
+   - Administración de cuentas bancarias
+   - Perfiles de usuario personalizables
+   - Historial de transacciones
 
-2. **Opciones de Contacto**:
+2. **Servicios Financieros**:
 
-   - Botones para WhatsApp, correo e Instagram
-   - Diseño intuitivo y amigable
+   - Cuentas de ahorro y corrientes
+   - Productos de inversión digital
+   - Opciones de crédito personalizadas
+   - Tarjetas de crédito con diferentes beneficios
 
-3. **Formulario de Contacto**:
-   - Campos para información personal
-   - Validación de datos
+3. **Portal Bancario**:
+
+   - Interfaz de banca en línea segura
+   - Dashboard con resumen financiero
+   - Transferencias entre cuentas
+   - Pagos de servicios
+
+4. **Sección de Contacto**:
+
+   - Formulario de contacto interactivo
+   - Múltiples canales de comunicación (WhatsApp, correo, Instagram)
    - Diseño responsivo y accesible
+   - Validación de datos de contacto
 
-### Mejoras en Sección Nuestros Clientes
-
-Se ha actualizado la sección de clientes con:
-
-1. **Nuevo Encabezado**:
-
-   - Imagen de fondo adaptativa
-   - Título destacado con efectos visuales
-
-2. **Galería de Clientes Mejorada**:
-
-   - Logos centrados y optimizados
-   - Cuadrícula responsiva 3x3
-   - Mejor visualización en dispositivos móviles
-
-3. **Sección de Testimonios**:
-   - Diseño moderno con efecto diagonal
-   - Testimonio destacado de Café KICHA
-   - Mejor legibilidad y presentación
-
-### Actualización de Sintaxis Thymeleaf
-
-Se ha actualizado la sintaxis de los fragmentos de Thymeleaf en las plantillas para utilizar la notación recomendada con llaves (`~{}`). Esta actualización mejora la legibilidad del código y sigue las mejores prácticas de Thymeleaf.
-
-Ejemplo:
-
-```html
-<!-- Sintaxis anterior -->
-<header th:replace="layout/plantilla :: header"></header>
-
-<!-- Sintaxis actualizada -->
-<header th:replace="~{layout/plantilla :: header}"></header>
-```
-
-### Mejoras en los Formularios
-
-Se han rediseñado los formularios en las páginas de servicios para mejorar la experiencia de usuario:
-
-1. **Diseño Horizontal**: Los campos de formulario ahora se muestran en una disposición horizontal, lo que mejora el uso del espacio y la estética.
-2. **Centrado de Texto**: Los títulos y descripciones de los formularios están centrados para una mejor presentación visual.
-3. **Botones Mejorados**: Se ha optimizado el diseño de los botones de envío, utilizando un ancho proporcional y centrado.
-
-Estas mejoras se han aplicado a todos los formularios en las siguientes secciones:
-
-- Ahorros
-- Inversión Digital
-- Crédito
-- Cuentas
+5. **Área de Clientes Corporativos**:
+   - Showcase de clientes destacados
+   - Testimonios y casos de éxito
+   - Soluciones empresariales personalizadas
+   - Galería de logos de empresas asociadas
 
 ## Estructura del Proyecto
 
 El proyecto sigue una estructura estándar de Spring Boot:
 
-- `src/main/java/com/ProyectoBanco/`: Código fuente Java
-  - `controller/`: Controladores de Spring MVC
-    - `InicioSesionController.java`: Manejo de autenticación
-    - `NuestrosClientesController.java`: Gestión de sección de clientes
-    - `ContactenosController.java`: Gestión de sección de contacto
-- `src/main/resources/templates/`: Plantillas Thymeleaf
-  - `layout/`: Plantillas base y componentes comunes
-  - `iniciosesion/`: Plantillas para registro y login
-  - `nuestros_clientes/`: Plantillas para la sección de clientes
-  - `contactenos/`: Plantillas para la sección de contacto
-  - `servicios/`: Plantillas para servicios bancarios
-- `src/main/resources/static/`: Recursos estáticos
-  - `css/`: Hojas de estilo
-  - `IMG/`: Imágenes del sitio
-  - `js/`: Scripts de JavaScript
+```
+src/
+├── main/
+│ ├── java/com/ProyectoBanco/
+│ │ ├── controller/ # Controladores MVC
+│ │ ├── domain/ # Entidades y modelos
+│ │ ├── repository/ # Interfaces de repositorio
+│ │ ├── service/ # Servicios de negocio
+│ │ └── ProyectoApplication.java
+│ │
+│ └── resources/
+│ ├── static/
+│ │ ├── IMG/ # Imágenes del sitio
+│ │ └── js/ # Scripts JavaScript
+│ │
+│ ├── templates/
+│ │ ├── banca/ # Plantillas del portal bancario
+│ │ ├── carrito/ # Plantillas del carrito de compras
+│ │ ├── contactenos/ # Plantillas de la sección de contacto
+│ │ ├── iniciosesion/ # Plantillas de autenticación
+│ │ ├── layout/ # Plantillas base y componentes comunes
+│ │ ├── nuestros_clientes/ # Plantillas de clientes corporativos
+│ │ ├── productos/ # Plantillas de productos financieros
+│ │ └── servicios/ # Plantillas de servicios bancarios
+│ │
+│ └── application.properties # Configuración de la aplicación
+```
 
 ## Tecnologías Utilizadas
 
-- Spring Boot
-- Thymeleaf
-- Bootstrap 5
-- HTML5/CSS3
-- JavaScript
+- **Backend**: Java 17, Spring Boot 3.x
+- **Persistencia**: Spring Data JPA, Hibernate
+- **Frontend**: Thymeleaf, Bootstrap 5, HTML5/CSS3, JavaScript
+- **Base de Datos**: MySQL (configurada)
+- **Seguridad**: Spring Security
+- **Herramientas de Construcción**: Maven
+
+## Actualizaciones Recientes
+
+### Mejoras en el Carrito de Compras (14/03/2025)
+
+- **Corrección de Relaciones entre Entidades**:
+  - Resolución del problema de recursión infinita en las relaciones Cliente-Producto
+  - Implementación de `@ToString.Exclude` en las entidades para gestionar referencias circulares
+  - Optimización de la serialización de objetos para el carrito
+
+- **Mejoras en la Interfaz del Carrito**:
+  - Fragmentación de plantillas para mejor mantenibilidad
+  - Nuevo archivo `fragmentos.html` para componentes reutilizables del carrito
+  - Actualización de `ver.html` para utilizar los nuevos fragmentos
+
+- **Optimizaciones de JavaScript**:
+  - Corrección de sintaxis en el código del carrito
+  - Mejora en el manejo de eventos y respuestas del servidor
+  - Implementación de mejores prácticas en la estructura del código
+
+### Mejoras Anteriores
+
+- **Mejoras en Interfaz de Usuario**:
+  - Implementación de diseño responsivo en todas las secciones
+  - Actualización del sistema de navegación
+  - Mejora en formularios con validación en tiempo real
+  - Optimización para visualización en dispositivos móviles
+
+- **Actualización de Componentes**:
+  - Sintaxis Thymeleaf actualizada a la notación recomendada con llaves (~{})
+  - Estructura de fragmentos mejorada para reutilización de código
+  - Organización modular de plantillas y estilos
+
+- **Ampliación de Funcionalidades**:
+  - Nueva implementación de simuladores financieros
+  - Sistema de notificaciones para el usuario
+  - Mejora en el proceso de registro y autenticación
+
+- **Integración de Servicios Externos**:
+  - Conexión con APIs de terceros para pagos y transferencias
+  - Implementación de servicios de verificación de identidad
+  - Integración con plataformas de análisis de datos para mejorar la experiencia del usuario

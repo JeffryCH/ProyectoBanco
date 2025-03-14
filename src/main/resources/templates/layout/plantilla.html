@@ -16,90 +16,117 @@
     />
     <!-- CSS personalizado opcional -->
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <!-- Scripts de Bootstrap (agregados al final del head) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script personalizado -->
+    <script th:src="@{/js/rutinas.js}"></script>
+    <!-- Script para inicializar variables globales -->
+    <script th:inline="javascript">
+      // Inicializar variable global para el estado de login
+      window.clienteLogueado = [[${session.clienteLogueado != null}]];
+    </script>
   </head>
   <body>
-    <!-- Fragmento de cabecera -->
-    <header th:fragment="header">
-      <nav class="navbar navbar-expand-lg" style="background-color: #2d5c5c">
-        <div class="container">
-          <!-- Logotipo -->
-          <a class="navbar-brand" th:href="@{/}">
-            <img
-              th:src="@{/IMG/BLACKROCK_PRINCIPAL.png}"
-              alt="Black Rock Banco"
-              width="60"
-              height="60"
-              class="rounded-circle"
-            />
-            <span class="text-white ms-2">Black Rock Banco</span>
-          </a>
+<!-- Fragmento de cabecera -->
+<header th:fragment="header">
+  <nav class="navbar navbar-expand-lg" style="background-color: #2d5c5c">
+    <div class="container">
+      <!-- Logotipo -->
+      <a class="navbar-brand" th:href="@{/}">
+        <img
+          th:src="@{/IMG/BLACKROCK_PRINCIPAL.png}"
+          alt="Black Rock Banco"
+          width="60"
+          height="60"
+          class="rounded-circle"
+        />
+        <span class="text-white ms-2">Black Rock Banco</span>
+      </a>
 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-          <!-- Elementos de navegación (Centro) -->
-          <div
-            class="collapse navbar-collapse justify-content-center"
-            id="navbarNav"
-          >
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/}">Inicio</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle text-white"
-                  th:href="@{/servicios}"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Servicios
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" th:href="@{/servicios/ahorros}">Ahorros</a></li>
-                  <li><a class="dropdown-item" th:href="@{/servicios/inversion-digital}">Inversión Digital</a></li>
-                  <li><a class="dropdown-item" th:href="@{/servicios/credito}">Crédito</a></li>
-                  <li><a class="dropdown-item" th:href="@{/servicios/cuentas}">Cuentas</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" th:href="@{/servicios}">Ver todos los servicios</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/productos/productos}">Productos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/nuestros_clientes/nuestrosClientes}">Nuestros Clientes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/contactenos/contactenos}">Contáctenos</a>
-              </li>
+      <!-- Elementos de navegación (Centro) -->
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/}">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              th:href="@{/servicios}"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Servicios
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" th:href="@{/servicios/ahorros}">Ahorros</a></li>
+              <li><a class="dropdown-item" th:href="@{/servicios/inversion-digital}">Inversión Digital</a></li>
+              <li><a class="dropdown-item" th:href="@{/servicios/credito}">Crédito</a></li>
+              <li><a class="dropdown-item" th:href="@{/servicios/cuentas}">Cuentas</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" th:href="@{/servicios}">Ver todos los servicios</a></li>
             </ul>
-          </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/productos/productos}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/nuestros_clientes/nuestrosClientes}">Nuestros Clientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/contactenos/contactenos}">Contáctenos</a>
+          </li>
+        </ul>
+      </div>
 
-          <!-- Iconos de usuario y carrito (Derecha) -->
-          <div class="d-flex">
-            <a th:href="@{/iniciosesion/login}" class="me-3 text-white">
+      <!-- Iconos de usuario, carrito y cerrar sesión (Derecha) -->
+      <div class="d-flex align-items-center">
+        <!-- Mostrar ícono de usuario o nombre de usuario según estado de sesión -->
+        <div th:if="${session.clienteLogueado == null}">
+          <a th:href="@{/iniciosesion/login}" class="me-3 text-white">
+            <i class="bi bi-person-circle fs-4"></i>
+          </a>
+        </div>
+        <div th:unless="${session.clienteLogueado == null}" class="me-3">
+          <div class="dropdown">
+            <a href="#" class="text-white dropdown-toggle text-decoration-none" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle fs-4"></i>
             </a>
-            <a href="#" class="text-white position-relative">
-              <i class="bi bi-cart-fill fs-4"></i>
-              <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              >
-                0
-              </span>
-            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <!-- En el fragmento header, cambiar el enlace de "Perfil" -->
+            <li>
+              <a class="dropdown-item" th:href="@{/banca/portal}">Mi Portal</a>
+            </li>
+            <li>
+              <a class="dropdown-item" th:href="@{/banca/cerrar-sesion}">Cerrar sesión</a>
+            </li>
+            </ul>
           </div>
         </div>
-      </nav>
-    </header>
+        <!-- Carrito de compras con contador -->
+        <a th:href="@{/carrito/ver}" class="text-white position-relative ms-3">
+          <i class="bi bi-cart-fill fs-4"></i>
+          <span id="carritoContador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                th:text="${session.clienteLogueado != null ? @carritoService.obtenerCantidadItems(session.clienteLogueado) : '0'}">
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
 
     <!-- Fragmento de sección principal -->
     <section th:fragment="hero" class="hero-section">
@@ -285,12 +312,11 @@
         </div>
         <div class="row mt-4">
           <div class="col-12 text-center">
-            <p class="mb-0">Banco Black Rock © 2025 | TODOS LOS DERECHOS RESERVADOS</p>
+            <p class="mb-0">Banco Black Rock 2025 | TODOS LOS DERECHOS RESERVADOS</p>
           </div>
         </div>
       </div>
-      <!-- JavaScript de Bootstrap con Popper -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </footer>
   </body>
 </html>
+

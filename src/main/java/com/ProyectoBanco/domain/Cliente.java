@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
@@ -51,10 +54,12 @@ public class Cliente {
     private Date fechaRegistro;
 
     // Relación con cuentas
+    @ToString.Exclude
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cuenta> cuentas;
 
     // Relación con productos
+    @ToString.Exclude
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Producto> productos;
 

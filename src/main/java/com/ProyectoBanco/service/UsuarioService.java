@@ -7,13 +7,13 @@ import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.Date;
 
 @Service
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
-    
+
     public boolean autenticarUsuario(String email, String contrasena) {
         Optional<Cliente> clienteOptional = usuarioRepository.findByEmail(email);
         if (clienteOptional.isPresent()) {
@@ -23,6 +23,7 @@ public class UsuarioService {
         }
         return false;
     }
+
     @Transactional
     public Cliente obtenerPorEmail(String email) {
         Optional<Cliente> clienteOptional = usuarioRepository.findByEmail(email); // Obtienes el Optional<Cliente>
@@ -33,7 +34,12 @@ public class UsuarioService {
             return usuario;
         }
         return null; // Devuelves null si no se encuentra el cliente
-        }
-        
-        //return usuarioRepository.findByEmail(email).orElse(null);
     }
+
+    @Transactional
+    public void guardarUsuario(Cliente cliente) {
+        // Actualizar el ultimo acceso antes de guardar
+        cliente.setUltimoAcceso(new Date());
+        usuarioRepository.save(cliente);
+    }
+}

@@ -4,10 +4,14 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
+import lombok.ToString;
 
+@Data
 @Entity
 @Table(name = "productos")
-public class Producto {
+public class Producto implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
@@ -23,14 +27,18 @@ public class Producto {
     @Column(name = "descripcion", length = 255)
     private String descripcion;
 
+    @Column(name = "precio", nullable = false)
+    private Double precio;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
-    private EstadoProducto estado = EstadoProducto.ACTIVO;
+    private EstadoProducto estado = EstadoProducto.Activo;
 
     @Column(name = "fecha_creacion", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion = new Date();
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;

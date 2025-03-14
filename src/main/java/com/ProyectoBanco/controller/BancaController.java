@@ -1,5 +1,3 @@
-
-
 package com.ProyectoBanco.controller;
 
 import com.ProyectoBanco.service.*;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BancaController {
     @Autowired
     private UsuarioService usuarioService;
-    
+
     @Autowired
     private CuentaService cuentaService;
 
@@ -32,9 +30,10 @@ public class BancaController {
 
     @GetMapping("/portal")
     public String mostrarPortalBanca(Model model, HttpSession session) {
-        //String emailUsuario = principal.getName();
-        //Cliente usuario = usuarioService.obtenerPorEmail(emailUsuario);
-        Cliente usuario = (Cliente) session.getAttribute("usuario");
+        Cliente usuario = (Cliente) session.getAttribute("clienteLogueado");
+        if (usuario == null) {
+            return "redirect:/iniciosesion/login"; // Redirigir si no hay usuario logueado
+        }
         System.out.println("Usuario en sesión: " + usuario);
         model.addAttribute("nombreUsuario", usuario.getNombre());
         model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
@@ -44,14 +43,15 @@ public class BancaController {
 
         return "banca/portal";
     }
-    
+
     @GetMapping("/cerrar-sesion")
     public String cerrarSesion(HttpSession session) {
-        // Invalidar la sesión
         session.invalidate();
-        
-        // Redirigir a la página de inicio o login
-        return "redirect:/iniciosesion/login";  // O donde quieras redirigir después de cerrar sesión
+        return "redirect:/";
     }
-    
+
+    @GetMapping("/perfil")
+    public String mostrarPerfil() {
+        return "banca/portal";
+    }
 }

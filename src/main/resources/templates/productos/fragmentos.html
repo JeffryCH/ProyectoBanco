@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Fragmentps Productos</title>
+        <title>Fragmentos Productos</title>
         <meta charset="UTF-8">
     </head>
     <body>
@@ -13,124 +13,178 @@
             th:style="'min-height: 300px; background: url(' + @{/IMG/Productos.jpg} + ') center center no-repeat; background-size: cover;'"
             >
             <div class="text-center text-white">
-                <h1
-                    class="display-4 fw-bold"
-                    style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)"
-                    >
+                <h1 class="display-4 fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)">
                     Productos
                 </h1>
+                <div th:if="${session.clienteLogueado == null}" class="mt-4">
+                    <p class="lead">Para comprar nuestros productos, necesitas iniciar sesión</p>
+                    <a th:href="@{/iniciosesion/login}" class="btn btn-primary">Iniciar Sesión</a>
+                    <a th:href="@{/iniciosesion/registro}" class="btn btn-outline-light">Registrarse</a>
+                </div>
             </div>
         </section>
 
         <!-- Grid de productos -->
         <section th:fragment="productosGrid" class="py-5">
             <div class="container">
-                
                 <div class="row g-4 p-2">
                     <!-- VISA GOLD -->
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VISAGOLD.png}" class="img-fluid rounded-start" alt="Tarjeta Visa Gold">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta de Crédito Visa GOLD</b></h5>
-                                    <p class="card-text">La tarjeta de crédito VISA Gold es un eficiente medio de pago electrónico internacional.</p>
-                                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VISAGOLD.png}" class="img-fluid rounded-start" alt="Tarjeta Visa Gold">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- VISA PLATINUM -->
-                
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VISAPlatinum.png}" class="img-fluid rounded-start" alt="Tarjeta Visa Platinum">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta VISA Platinum</b></h5>
-                                    <p class="card-text">La tarjeta de crédito VISA Gold es un eficiente medio de pago electrónico internacional.</p>
-                                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-                
-                <!-- VISA INFINITE -->
-                
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VISAInfinite.jpg}" class="img-fluid rounded-start" alt="Tarjeta Visa Infinite">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta Visa Infinite</b></h5>
-                                    <p class="card-text">VISA Infitite es lo último en tarjetas Premium y otorga a quien la posee un estatus preferencial alrededor del mundo de forma inmediata.</p>
-                                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta de Crédito Visa GOLD</b></h5>
+                                        <p class="card-text">La tarjeta de crédito VISA Gold es un eficiente medio de pago electrónico internacional.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $50/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(1)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                
-                <!-- VISA INFINITE METALICA -->
-
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VISAInfiniteM.jpg}" class="img-fluid rounded-start" alt="Tarjeta Visa Infinite Metálica">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta Visa Infinite Metálica</b></h5>
-                                    <p class="card-text">Es una tarjeta que está dirigida a un segmento premium.</p>
-                                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
+                    <!-- VISA PLATINUM -->
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VISAPlatinum.png}" class="img-fluid rounded-start" alt="Tarjeta Visa Platinum">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta VISA Platinum</b></h5>
+                                        <p class="card-text">La tarjeta de crédito VISA Platinum ofrece beneficios exclusivos y prestigio internacional.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $100/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(2)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
-                <!-- VISA ACTIVA DEPORTES -->
 
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VisaActivaD.jpg}" class="img-fluid rounded-start" alt="Tarjeta Activa Deportes">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta Activa Deportes</b></h5>
-                                    <p class="card-text">Cuenta con un paquete de beneficios, descuentos y accesos a competencias, gimnasios</p>
-                                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
+                    <!-- VISA INFINITE -->
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VISAInfinite.jpg}" class="img-fluid rounded-start" alt="Tarjeta Visa Infinite">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta Visa Infinite</b></h5>
+                                        <p class="card-text">VISA Infinite es lo último en tarjetas Premium y otorga estatus preferencial mundial.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $200/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(3)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
-                <!-- VISA GAMER NUEVA -->
-                    <div class="card p-3 shadow-sm" style="max-width: 540px;">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <img th:src="@{/IMG/VisaGamer.jpg}" class="img-fluid rounded-start" alt="Tarjeta Gamer">
+
+                    <!-- VISA INFINITE METALICA -->
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VISAInfiniteM.jpg}" class="img-fluid rounded-start" alt="Tarjeta Visa Infinite Metálica">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta Visa Infinite Metálica</b></h5>
+                                        <p class="card-text">Tarjeta premium con diseño metálico exclusivo y beneficios superiores.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $300/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(4)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Tarjeta Gamer Nueva</b></h5>
-                                    <p class="card-text">Una identidad única, la Tarjeta Gamer ha sido creada por gamers para gamers</p>
-                                    <button type="button" class="btn btn-primary align-items-center">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- VISA ACTIVA DEPORTES -->
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VisaActivaD.jpg}" class="img-fluid rounded-start" alt="Tarjeta Activa Deportes">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta Activa Deportes</b></h5>
+                                        <p class="card-text">Beneficios especiales para deportistas, incluyendo descuentos en gimnasios y eventos.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $75/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(5)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VISA GAMER -->
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 shadow-sm h-100">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <img th:src="@{/IMG/VisaGamer.jpg}" class="img-fluid rounded-start" alt="Tarjeta Gamer">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"><b>Tarjeta Gamer</b></h5>
+                                        <p class="card-text">Diseñada por gamers para gamers, con beneficios especiales en tiendas de videojuegos.</p>
+                                        <div class="mt-auto">
+                                            <p class="card-text"><small class="text-muted">Precio: $60/año</small></p>
+                                            <button type="button" 
+                                                    class="btn btn-primary"
+                                                    th:onclick="'agregarAlCarrito(6)'"
+                                                    th:disabled="${session.clienteLogueado == null}">
+                                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </section>
-
     </body>
 </html>

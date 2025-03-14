@@ -1,359 +1,393 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Fragmentos de Inicio de Sesión</title>
-    </head>
-    <body>
-        <!-- Fragmento del encabezado de bienvenida -->
-        <div th:fragment="bienvenida-header" class="position-relative mb-5">
-            <img
-                th:src="@{/IMG/BLACKROCK_LOGO.png}"
-                class="img-fluid w-100"
-                alt="Black Rock Banco"
-                style="max-height: 150px; object-fit: cover"
-                />
-            <div
-                class="position-absolute top-50 start-50 translate-middle text-center"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fragmentos de Inicio de Sesión</title>
+  </head>
+  <body>
+    <!-- Fragmento del encabezado de bienvenida -->
+    <div th:fragment="bienvenida-header" class="position-relative mb-5">
+      <img
+        th:src="@{/IMG/BLACKROCK_LOGO.png}"
+        class="img-fluid w-100"
+        alt="Black Rock Banco"
+        style="max-height: 150px; object-fit: cover"
+      />
+      <div
+        class="position-absolute top-50 start-50 translate-middle text-center"
+      >
+        <h1
+          class="display-4 fw-bold"
+          style="
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+          "
+        >
+          ¡Bienvenido!
+        </h1>
+      </div>
+    </div>
+
+    <!-- Fragmento del formulario de inicio de sesión -->
+    <div th:fragment="formulario-login" class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-sm" style="background-color: #f0f8f8">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4">¡Bienvenido al Banco Black Rock!</h2>
+
+              <form th:action="@{/iniciosesion/autenticar}" method="post">
+                <div class="mb-3">
+                  <label for="email" class="form-label"
+                    >Correo Electrónico</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="contrasena" class="form-label">Contraseña</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="contrasena"
+                    name="contrasena"
+                    required
+                  />
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="background-color: #2d5c5c; border-color: #2d5c5c"
+                  >
+                    Ingresar
+                  </button>
+                </div>
+              </form>
+
+              <div class="text-center mt-4">
+                <p>¿Aún no eres parte de nuestra familia?</p>
+                <a
+                  th:href="@{/iniciosesion/registro}"
+                  class="btn btn-outline-secondary"
                 >
-                <h1
-                    class="display-4 fw-bold"
-                    style="
-                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-                    color: #ffffff;
-                    padding: 10px 20px;
-                    border-radius: 10px;
-                    "
+                  Registrarme
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento de error de inicio de sesión -->
+    <div th:fragment="error-login" class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div
+            class="card shadow-sm"
+            style="background-color: #f8d7da; border-color: #f5c6cb"
+          >
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4 text-danger">
+                Error de Inicio de Sesión
+              </h2>
+              <p class="text-center text-dark">
+                Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.
+              </p>
+              <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                <a th:href="@{/iniciosesion/login}" class="btn btn-danger">
+                  Volver al Inicio de Sesión
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fragmento del formulario de registro -->
+    <div th:fragment="formulario-registro" class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow-sm" style="background-color: #f0f8f8">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4">
+                ¡Permítenos llevar tus finanzas a otro nivel!
+              </h2>
+
+              <form th:action="@{/iniciosesion/registro}" method="post">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nombre"
+                      name="nombre"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="apellido" class="form-label">Apellidos</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="apellido"
+                      name="apellido"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="correo" class="form-label"
+                      >Correo Electrónico</label
                     >
-                    ¡Bienvenido!
-                </h1>
-            </div>
-        </div>
-
-        <!-- Fragmento del formulario de inicio de sesión -->
-        <div th:fragment="formulario-login" class="container py-4">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow-sm" style="background-color: #f0f8f8">
-                        <div class="card-body p-4">
-                            <h2 class="text-center mb-4">¡Bienvenido al Banco Black Rock!</h2>
-
-                            <form th:action="@{/iniciosesion/autenticar}" method="post">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label"
-                                           >Correo Electrónico</label
-                                    >
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="email"
-                                        name="email"
-                                        required
-                                        />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="contrasena" class="form-label">Contraseña</label>
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="contrasena"
-                                        name="contrasena"
-                                        required
-                                        />
-                                </div>
-
-                                <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary"
-                                        style="background-color: #2d5c5c; border-color: #2d5c5c"
-                                        >
-                                        Ingresar
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div class="text-center mt-4">
-                                <p>¿Aún no eres parte de nuestra familia?</p>
-                                <a
-                                    th:href="@{/iniciosesion/registro}"
-                                    class="btn btn-outline-secondary"
-                                    >
-                                    Registrarme
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="correo"
+                      name="correo"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="telefono" class="form-label"
+                      >Número Telefónico</label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="telefono"
+                      name="telefono"
+                      required
+                    />
+                  </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Fragmento de error de inicio de sesión -->
-        <div th:fragment="error-login" class="container py-4">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow-sm" style="background-color: #f8d7da; border-color: #f5c6cb">
-                        <div class="card-body p-4">
-                            <h2 class="text-center mb-4 text-danger">Error de Inicio de Sesión</h2>
-                            <p class="text-center text-dark">
-                                Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.
-                            </p>
-                            <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                                <a th:href="@{/iniciosesion/login}" class="btn btn-danger">
-                                    Volver al Inicio de Sesión
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="contrasena" class="form-label"
+                      >Contraseña</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="contrasena"
+                      name="contrasena"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="confirmarContrasena" class="form-label"
+                      >Confirmar Contraseña</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmarContrasena"
+                      name="confirmarContrasena"
+                      required
+                    />
+                  </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Fragmento del formulario de registro -->
-        <div th:fragment="formulario-registro" class="container py-4">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card shadow-sm" style="background-color: #f0f8f8">
-                        <div class="card-body p-4">
-                            <h2 class="text-center mb-4">
-                                ¡Permítenos llevar tus finanzas a otro nivel!
-                            </h2>
-
-                            <form th:action="@{/iniciosesion/registro}" method="post">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="nombre" class="form-label">Nombre</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="nombre"
-                                            name="nombre"
-                                            required
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="apellido" class="form-label">Apellidos</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="apellido"
-                                            name="apellido"
-                                            required
-                                            />
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="correo" class="form-label"
-                                               >Correo Electrónico</label
-                                        >
-                                        <input
-                                            type="email"
-                                            class="form-control"
-                                            id="correo"
-                                            name="correo"
-                                            required
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="telefono" class="form-label"
-                                               >Número Telefónico</label
-                                        >
-                                        <input
-                                            type="tel"
-                                            class="form-control"
-                                            id="telefono"
-                                            name="telefono"
-                                            required
-                                            />
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="contrasena" class="form-label"
-                                               >Contraseña</label
-                                        >
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            id="contrasena"
-                                            name="contrasena"
-                                            required
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="confirmarContrasena" class="form-label"
-                                               >Confirmar Contraseña</label
-                                        >
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            id="confirmarContrasena"
-                                            name="confirmarContrasena"
-                                            required
-                                            />
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="tipoCuenta" class="form-label"
-                                               >Tipo de Cuenta</label
-                                        >
-                                        <select
-                                            class="form-select"
-                                            id="tipoCuenta"
-                                            name="tipoCuenta"
-                                            onchange="mostrarCampoNegocio()"
-                                            required
-                                            >
-                                            <option value="Personal" selected>Personal</option>
-                                            <option value="PYME">PYME</option>
-                                            <option value="Empresa">Empresa</option>
-                                        </select>
-                                    </div>
-                                    <div
-                                        class="col-md-6"
-                                        id="divNombreNegocio"
-                                        style="display: none"
-                                        >
-                                        <label for="nombreNegocio" class="form-label"
-                                               >Nombre del Negocio</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="nombreNegocio"
-                                            name="nombreNegocio"
-                                            />
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"
-                                               >Servicios en los que estás interesado</label
-                                        >
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="servicio"
-                                                id="servicioAhorro"
-                                                value="Ahorro"
-                                                required
-                                                checked
-                                                />
-                                            <label class="form-check-label" for="servicioAhorro">
-                                                Ahorro
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="servicio"
-                                                id="servicioCredito"
-                                                value="Crédito"
-                                                />
-                                            <label class="form-check-label" for="servicioCredito">
-                                                Crédito
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"
-                                               >Método de contacto preferido</label
-                                        >
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="metodoContacto"
-                                                id="contactoCorreo"
-                                                value="Correo"
-                                                required
-                                                checked
-                                                />
-                                            <label class="form-check-label" for="contactoCorreo">
-                                                Correo
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="metodoContacto"
-                                                id="contactoTelefono"
-                                                value="Teléfono"
-                                                />
-                                            <label class="form-check-label" for="contactoTelefono">
-                                                Teléfono
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 form-check">
-                                    <input
-                                        type="checkbox"
-                                        class="form-check-input"
-                                        id="terminos"
-                                        required
-                                        />
-                                    <label class="form-check-label" for="terminos">
-                                        Acepto los términos y condiciones
-                                    </label>
-                                </div>
-
-                                <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary"
-                                        style="background-color: #2d5c5c; border-color: #2d5c5c"
-                                        >
-                                        Registrar
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div class="text-center mt-4">
-                                <p>¿Ya tienes una cuenta?</p>
-                                <a
-                                    th:href="@{/iniciosesion/login}"
-                                    class="btn btn-outline-secondary"
-                                    >
-                                    Iniciar Sesión
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="tipoCuenta" class="form-label"
+                      >Tipo de Cuenta</label
+                    >
+                    <select
+                      class="form-select"
+                      id="tipoCuenta"
+                      name="tipoCuenta"
+                      required
+                    >
+                      <option value="Personal" selected>Personal</option>
+                      <option value="PYME">PYME</option>
+                      <option value="Empresa">Empresa</option>
+                    </select>
+                  </div>
+                  <div
+                    class="col-md-6"
+                    id="divNombreNegocio"
+                    style="display: none"
+                  >
+                    <label for="nombreNegocio" class="form-label"
+                      >Nombre del Negocio</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nombreNegocio"
+                      name="nombreNegocio"
+                    />
+                  </div>
                 </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Servicios en los que estás interesado</label
+                    >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="servicio"
+                        id="servicioAhorro"
+                        value="Ahorro"
+                        required
+                        checked
+                      />
+                      <label class="form-check-label" for="servicioAhorro">
+                        Ahorro
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="servicio"
+                        id="servicioCredito"
+                        value="Crédito"
+                      />
+                      <label class="form-check-label" for="servicioCredito">
+                        Crédito
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Método de contacto preferido</label
+                    >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="metodoContacto"
+                        id="contactoCorreo"
+                        value="Correo"
+                        required
+                        checked
+                      />
+                      <label class="form-check-label" for="contactoCorreo">
+                        Correo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="metodoContacto"
+                        id="contactoTelefono"
+                        value="Teléfono"
+                      />
+                      <label class="form-check-label" for="contactoTelefono">
+                        Teléfono
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="terminos"
+                    required
+                  />
+                  <label class="form-check-label" for="terminos">
+                    Acepto los términos y condiciones
+                  </label>
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="background-color: #2d5c5c; border-color: #2d5c5c"
+                  >
+                    Registrar
+                  </button>
+                </div>
+              </form>
+
+              <div class="text-center mt-4">
+                <p>¿Ya tienes una cuenta?</p>
+                <a
+                  th:href="@{/iniciosesion/login}"
+                  class="btn btn-outline-secondary"
+                >
+                  Iniciar Sesión
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Script para mostrar/ocultar el campo de nombre del negocio -->
-        <script th:fragment="script-registro">
-            function mostrarCampoNegocio() {
-                var tipoCuenta = document.getElementById("tipoCuenta").value;
-                var divNombreNegocio = document.getElementById("divNombreNegocio");
+    <!-- Fragmento para usuario ya logueado -->
+    <div th:fragment="usuario-logueado" class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-sm" style="background-color: #e6f7ff">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4">¡Bienvenido de nuevo!</h2>
 
-                if (tipoCuenta === "PYME" || tipoCuenta === "Empresa") {
-                    divNombreNegocio.style.display = "block";
-                    document.getElementById("nombreNegocio").required = true;
-                } else {
-                    divNombreNegocio.style.display = "none";
-                    document.getElementById("nombreNegocio").required = false;
-                    document.getElementById("nombreNegocio").value = "";
-                }
-            }
-        </script>
+              <div class="text-center">
+                <i class="bi bi-person-circle" style="font-size: 3rem"></i>
+                <h3
+                  class="mt-3"
+                  th:text="${cliente.nombre + ' ' + cliente.apellido}"
+                >
+                  Nombre del Usuario
+                </h3>
+                <p class="text-muted" th:text="${cliente.email}">
+                  correo@ejemplo.com
+                </p>
+                <p>
+                  Último acceso:
+                  <span
+                    th:text="${#dates.format(cliente.ultimoAcceso, 'dd/MM/yyyy HH:mm')}"
+                  >
+                    Fecha de acceso
+                  </span>
+                </p>
 
-
-
-    </body>
+                <div class="mt-4">
+                  <a
+                    th:href="@{/portal}"
+                    class="btn btn-primary"
+                    style="background-color: #2d5c5c; border-color: #2d5c5c"
+                  >
+                    Ir a mi Portal
+                  </a>
+                  <a
+                    th:href="@{/iniciosesion/logout}"
+                    class="btn btn-outline-secondary ms-2"
+                  >
+                    Cerrar Sesión
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

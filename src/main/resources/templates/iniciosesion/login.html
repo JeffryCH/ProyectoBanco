@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <!-- Include the head fragment -->
+  <!-- Incluir el fragmento de cabecera -->
   <head th:replace="~{layout/plantilla :: head}"></head>
   <body>
-    <!-- Include the header fragment -->
+    <!-- Incluir el fragmento de encabezado -->
     <header th:replace="~{layout/plantilla :: header}"></header>
 
-    <!-- Include the welcome header fragment -->
+    <!-- Incluir el fragmento de encabezado de bienvenida -->
     <div th:replace="~{iniciosesion/fragmentos :: bienvenida-header}"></div>
 
-    <!-- Include the login form fragment -->
-    <div th:replace="~{iniciosesion/fragmentos :: formulario-login}"></div>
+    <!-- Mostrar condicionalmente el fragmento de formulario de login o el de usuario logueado -->
+    <div th:if="${session.clienteLogueado == null}">
+      <!-- Incluir el fragmento de formulario de login -->
+      <div th:replace="~{iniciosesion/fragmentos :: formulario-login}"></div>
+    </div>
+    <div th:unless="${session.clienteLogueado == null}">
+      <!-- Incluir el fragmento de usuario logueado -->
+      <div th:replace="~{iniciosesion/fragmentos :: usuario-logueado}"></div>
+    </div>
 
-    <!-- Include the footer fragment -->
+    <!-- Incluir el fragmento de pie de página -->
     <footer th:replace="~{layout/plantilla :: footer}"></footer>
 
-    <!-- Bootstrap JS Bundle with Popper -->
+    <!-- JavaScript de Bootstrap con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
