@@ -1,0 +1,144 @@
+
+CREATE DATABASE IF NOT EXISTS banco;
+/*Se crea un usuario para la base de datos llamado "usuario_prueba" y tiene la contraseña "Usuario_Clave."*/
+create user 'usuario_prueba2'@'%' identified by 'Usuar1o_Clave';
+
+/*Se asignan los prvilegios sobr ela base de datos TechShop al usuario creado */
+grant all privileges on banco.* to 'usuario_prueba2'@'%';
+flush privileges;
+
+USE banco;
+
+CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    identificacion VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    direccion VARCHAR(50),
+    fecha_nacimiento DATE,
+    usuario VARCHAR(50) UNIQUE NOT NULL,
+    contraseña VARCHAR(255) NOT NULL,
+    ultimo_acceso DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE cuentas (
+    id_cuenta INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    numero_cuenta VARCHAR(20) UNIQUE NOT NULL,
+    tipo_cuenta VARCHAR(20) NOT NULL,
+    saldo DECIMAL(15,2) DEFAULT 0.00,
+    moneda ENUM('CRC', 'USD', 'EUR') NOT NULL DEFAULT 'CRC',
+    fecha_apertura DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
+CREATE TABLE transacciones (
+    id_transaccion INT AUTO_INCREMENT PRIMARY KEY,
+    id_cuenta INT NOT NULL,
+    tipo_transaccion VARCHAR(20) NOT NULL,
+    monto DECIMAL(10,2) NOT NULL,
+    descripcion VARCHAR(255),
+    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cuenta) REFERENCES cuentas(id_cuenta)
+);
+
+
+CREATE TABLE productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('Cuenta', 'Tarjeta', 'Préstamo', 'Inversión') NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255),
+    estado ENUM('ACTIVO', 'INACTIVO') DEFAULT 'ACTIVO',
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_cliente INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente) ON DELETE CASCADE
+);
+
+CREATE TABLE transferencias (
+    id_transferencia INT AUTO_INCREMENT PRIMARY KEY,
+    id_cuenta_origen INT NOT NULL,
+    id_cuenta_destino INT NOT NULL,
+    monto DECIMAL(10,2) NOT NULL,
+    fecha_transferencia DATETIME DEFAULT CURRENT_TIMESTAMP,
+    concepto VARCHAR(255),
+    FOREIGN KEY (id_cuenta_origen) REFERENCES cuentas(id_cuenta) ON DELETE CASCADE,
+    FOREIGN KEY (id_cuenta_destino) REFERENCES cuentas(id_cuenta) ON DELETE CASCADE
+);
+CREATE TABLE faq (
+    id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
+    pregunta VARCHAR(255) NOT NULL,
+    respuesta VARCHAR(1000) NOT NULL
+);
+CREATE TABLE contacto(
+    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    mensaje VARCHAR(500) NOT NULL,
+    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente) ON DELETE CASCADE
+);
+CREATE TABLE conversor (
+    id_conversion INT AUTO_INCREMENT PRIMARY KEY,
+    moneda_origen ENUM('CRC', 'USD', 'EUR') NOT NULL,
+    moneda_destino ENUM('CRC', 'USD', 'EUR') NOT NULL,
+    tasa_conversion DECIMAL(10,4) NOT NULL,
+    monto_origen DECIMAL(15,2) NOT NULL
+);
+
+INSERT INTO clientes (identificacion, nombre, apellido, email, telefono, direccion, fecha_nacimiento, usuario, contraseña) VALUES
+('101230456', 'Carlos', 'Ramírez', 'carlos.ramirez@example.com', '88887777', 'San José, CR', '1990-05-12', 'carlosr', '$2a$10$34syNG1P.5hSZk16VqVLFOqyGhNjqiWD4fzKYymrwRLkoS2bncxUu'),
+('102345678', 'María', 'González', 'maria.gonzalez@example.com', '89996655', 'Alajuela, CR', '1985-08-25', 'mariag', '$2a$10$xomlINkO99hNBpA8h07tC.xj0fjTnnr684w6FOGZXAq7pr7W7bpRu'),
+('103456789', 'Luis', 'Fernández', 'luis.fernandez@example.com', '87778899', 'Cartago, CR', '1992-11-03', 'luisf', '$2a$10$rMDPRKS9seLiK0gYoAoILeZYHP57MOp6laMQ.QPKm4tx/dEgjopKa'),
+('104567890', 'Ana', 'Mendoza', 'ana.mendoza@example.com', '86665544', 'Heredia, CR', '1995-07-18', 'anam', '$2a$10$1dT0OhH1tKH5jUjKS5.ZquBmHZP99FUe/g4sFo5LuO.do5vdW2mWa'),
+('105678901', 'Pedro', 'Lopez', 'pedro.lopez@example.com', '85554433', 'Puntarenas, CR', '1988-02-10', 'pedrol', '$2a$10$F0fnmEJul8ukMC.SGYZRAeDpDn/zdgX0RFcgIg3IHp2NdttQoHpXy');
+
+INSERT INTO cuentas (id_cliente, numero_cuenta, tipo_cuenta, saldo, moneda) VALUES
+(1, '1234567890', 'Ahorro', 50000.00, 'CRC'),
+(2, '2345678901', 'Corriente', 120000.00, 'CRC'),
+(3, '3456789012', 'Ahorro', 25000.50, 'CRC'),
+(4, '4567890123', 'Inversión', 500000.75, 'CRC'),
+(5, '5678901234', 'Ahorro', 75000.00, 'CRC');
+
+INSERT INTO transacciones (id_cuenta, tipo_transaccion, monto, descripcion) VALUES
+(1, 'Depósito', 25000.00, 'Depósito en efectivo'),
+(2, 'Retiro', 5000.00, 'Retiro en cajero automático'),
+(3, 'Pago', 12000.00, 'Pago de factura de electricidad'),
+(4, 'Transferencia', 8000.00, 'Transferencia a otra cuenta'),
+(5, 'Depósito', 30000.00, 'Depósito por cheque');
+
+INSERT INTO productos (id_cliente, tipo, nombre, descripcion, estado) VALUES
+(1, 'Cuenta', 'Cuenta Ahorro', 'Cuenta de ahorro con interés mensual', 'Activo'),
+(2, 'Tarjeta', 'Tarjeta de Crédito Oro', 'Tarjeta con beneficios exclusivos', 'Activo'),
+(3, 'Préstamo', 'Préstamo Personal', 'Préstamo con tasa de interés baja', 'Activo'),
+(4, 'Inversión', 'Fondo de Inversión', 'Inversión a plazo fijo', 'Activo'),
+(5, 'Cuenta', 'Cuenta Corriente', 'Cuenta sin límite de retiros', 'Inactivo');
+
+
+INSERT INTO transferencias (id_cuenta_origen, id_cuenta_destino, monto, concepto) VALUES
+(1, 2, 10000.00, 'Pago de servicios'),
+(2, 3, 5000.00, 'Pago de suscripción'),
+(3, 4, 7500.00, 'Ahorro mensual'),
+(4, 5, 20000.00, 'Inversión en fondo'),
+(5, 1, 15000.00, 'Transferencia familiar');
+
+INSERT INTO faq (pregunta, respuesta) VALUES
+('¿Cómo abrir una cuenta?', 'Puede abrir una cuenta en línea o en una sucursal con su cédula.'),
+('¿Cuáles son las tasas de interés?', 'Las tasas de interés dependen del tipo de cuenta o préstamo.'),
+('¿Cómo reportar un fraude?', 'Puede reportar fraudes llamando al 800-SEGURIDAD o en la app.'),
+('¿Puedo hacer transferencias internacionales?', 'Sí, ofrecemos transferencias internacionales con tarifas preferenciales.'),
+('¿Cuáles son los horarios de atención?', 'Estamos abiertos de lunes a viernes de 8:00 a.m. a 5:00 p.m.');
+
+INSERT INTO contacto (id_cliente, mensaje) VALUES
+(1, 'Necesito ayuda con mi cuenta bloqueada.'),
+(2, 'Quiero información sobre un préstamo.'),
+(3, 'No puedo acceder a mi cuenta.'),
+(4, '¿Cómo cambio mi contraseña?'),
+(5, 'Quisiera mejorar mi plan de tarjeta de crédito.');
+
+INSERT INTO conversor (moneda_origen, moneda_destino, tasa_conversion, monto_origen) VALUES
+('CRC', 'USD', 0.0016, 50000.00),
+('USD', 'CRC', 625.00, 100.00),
+('EUR', 'USD', 1.10, 50.00),
+('USD', 'EUR', 0.91, 200.00),
+('CRC', 'EUR', 0.0015, 75000.00);

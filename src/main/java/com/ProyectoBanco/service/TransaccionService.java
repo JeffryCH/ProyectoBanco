@@ -15,4 +15,5 @@ public class TransaccionService {
     public List<Transaccion> obtenerTransaccionesPorUsuario(Long idCliente) {
         return transaccionRepository.findByCuenta_Cliente_IdCliente(idCliente);
     }
+    
 }

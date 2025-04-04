@@ -11,6 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Date;
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Controller
 @RequestMapping("/iniciosesion")
@@ -30,10 +34,50 @@ public class InicioSesionController {
     }
 
     @GetMapping("/registro")
-    public String mostrarRegistro() {
+    public String registrarse(){
         return "iniciosesion/formularioRegistroUsuario";
     }
+            
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @PostMapping("/registrarse")
+    public String registrarse(@RequestParam String nombre,
+        @RequestParam String apellido,
+        @RequestParam String correo,
+        @RequestParam String telefono,
+        @RequestParam String contrasena,
+        @RequestParam String confirmarContrasena,
+        @RequestParam String tipoCuenta,
+        @RequestParam String fechaNacimiento,
+        @RequestParam String identificacion,
+        Model model) {
+        
+        if (!contrasena.equals(confirmarContrasena)) {
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "iniciosesion/formularioRegistroUsuario";
+        }
+        //Crear usuario
+        String usuarioGenerado = (nombre + apellido.charAt(0)).toLowerCase();
+        //Fomato para la fecha de nacimiento
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(fechaNacimiento, formatter);
+        Date fecha = java.sql.Date.valueOf(localDate);
+        //Añadir atrinitos
+        Cliente cliente = new Cliente();
+        cliente.setNombre(nombre);
+        cliente.setApellido(apellido);
+        cliente.setEmail(correo);
+        cliente.setTelefono(telefono);
+        cliente.setContraseña(passwordEncoder.encode(contrasena)); // Idealmente se debe hashear
+        cliente.setUsuario(usuarioGenerado); 
+        cliente.setFechaNacimiento(fecha);
+        cliente.setIdentificacion(identificacion);
 
+        usuarioService.registrarClienteConCuenta(cliente);
+        return "iniciosesion/registroExitoso";
+    }
+
+    
     @GetMapping("/loginError")
     public String mostrarLoginError() {
         return "iniciosesion/loginError";

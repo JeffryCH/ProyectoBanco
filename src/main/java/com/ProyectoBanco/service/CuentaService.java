@@ -15,4 +15,19 @@ public class CuentaService {
     public List<Cuenta> obtenerCuentasPorCliente(Long idCliente) {
         return cuentaRepository.findByCliente_IdCliente(idCliente);
     }
+    
+    // Método para obtener una cuenta por su ID
+    public Optional<Cuenta> obtenerCuentaPorId(Long idCuenta) {
+        return cuentaRepository.findById(idCuenta);
+    }
+
+    // Método para obtener una cuenta por su número
+    public Optional<Cuenta> obtenerCuentaPorNumero(String numeroCuenta) {
+        return cuentaRepository.findByNumeroCuenta(numeroCuenta);
+    }
+
+    // Método para actualizar una cuenta
+    public void actualizarCuenta(Cuenta cuenta) {
+        cuentaRepository.save(cuenta);
+    }
 }

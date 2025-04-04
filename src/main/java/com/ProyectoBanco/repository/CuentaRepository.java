@@ -8,4 +8,6 @@ import java.util.*;
 @Repository
 public interface CuentaRepository extends JpaRepository<Cuenta, Long> {
     List<Cuenta> findByCliente_IdCliente(Long idCliente);
+    Optional<Cuenta> findByNumeroCuenta(String numeroCuenta);
+    boolean existsByNumeroCuenta(String numeroCuenta);
 }

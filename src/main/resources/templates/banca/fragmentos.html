@@ -3,7 +3,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Fragmentos para banca en linea</title>
-        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -40,7 +39,7 @@
                     <div class="card shadow-sm">
                         <div class="card-body p-4">
                             <h2 class="text-center mb-4">Bienvenido, <span th:text="${nombreUsuario}"></span>!</h2>
-                            <p class="text-center text-muted">Última conexión exitosa: <span th:text="${ultimaAcceso}"></span></p>
+                            <p class="text-center text-muted">Última conexión exitosa: <span th:text="${ultimaConexion}"></span></p>
 
                             <!-- Tabs -->
                             <ul class="nav nav-tabs" id="bancaTabs">
@@ -49,6 +48,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="servicios-tab" data-bs-toggle="tab" href="#servicios">Servicios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="transferencias-tab" data-bs-toggle="tab" href="#transferencias">Transferencias</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="transacciones-tab" data-bs-toggle="tab" href="#transacciones">Transacciones</a>
@@ -83,9 +85,164 @@
                                 <div class="tab-pane fade" id="servicios">
                                     <h4>Servicios Disponibles</h4>
                                     <div class="d-grid gap-2">
-                                        <a href="#" class="btn btn-warning">Cambio de Contraseña</a>
-
+                                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cambiarContrasenaModal">Cambio de Contraseña</a>
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transferenciaModal">Transferencia</a>
+                                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalActualizarDatos">Actualizar Información Personal</a>
                                     </div>
+                                </div>
+
+                                <!-- Modal para cambio de contraseña -->
+                                <div class="modal fade" id="cambiarContrasenaModal" tabindex="-1" aria-labelledby="cambiarContrasenaModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="cambiarContrasenaModalLabel">Cambio de Contraseña</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <!-- Usamos el formulario con th:action -->
+                                                <form th:action="@{/banca/cambiarContrasena}" method="post" id="formCambioContrasena">
+                                                    <div class="mb-3">
+                                                        <label for="contrasenaActual" class="form-label">Contraseña Actual</label>
+                                                        <input type="password" class="form-control" id="contrasenaActual" name="contrasenaActual" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="contrasenaNueva" class="form-label">Contraseña Nueva</label>
+                                                        <input type="password" class="form-control" id="contrasenaNueva" name="contrasenaNueva" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="confirmarContrasena" class="form-label">Confirmar Contraseña</label>
+                                                        <input type="password" class="form-control" id="confirmarContrasena" name="confirmarContrasena" required>
+                                                    </div>
+                                                    <div id="errorMensaje" class="text-danger"></div>
+                                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                                </form>
+                                            </div>
+                                            <!-- Mostrar mensajes de error o éxito -->
+                                            <div th:if="${errorMensaje != null}" class="text-danger">
+                                                <p th:text="${errorMensaje}"></p>
+                                            </div>
+
+                                            <div th:if="${successMessage != null}" class="text-success">
+                                                <p th:text="${successMessage}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal para transferencia -->
+                                <div class="modal fade" id="transferenciaModal" tabindex="-1" aria-labelledby="transferenciaModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="transferenciaModalLabel">Realizar Transferencia</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form th:action="@{/banca/realizarTransferencia}" method="post" id="formTransferencia">
+                                                    <div class="mb-3">
+                                                        <label for="cuentaOrigen" class="form-label">Cuenta de Origen</label>
+                                                        <select class="form-control" id="cuentaOrigen" name="cuentaOrigen" required>
+                                                            <option th:each="cuenta : ${cuentas}" 
+                                                                    th:value="${cuenta.id}" 
+                                                                    th:text="${cuenta.numeroCuenta}"></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="cuentaDestino" class="form-label">Cuenta Destino</label>
+                                                        <input type="text" class="form-control" id="cuentaDestino" name="cuentaDestino" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="descripcion" class="form-label">Descripción</label>
+                                                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="monto" class="form-label">Monto</label>
+                                                        <input type="number" class="form-control" id="monto" name="monto" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Transferir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal para Actualizar datos personales -->
+
+                                <div class="modal fade" id="modalActualizarDatos" tabindex="-1" aria-labelledby="modalActualizarDatosLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/banca/actualizar-datos" method="POST">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalActualizarDatosLabel">Actualizar Datos Personales</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="mb-3">
+                                                        <label for="nombre" class="form-label">Nombre</label>
+                                                        <input type="text" class="form-control" name="nombre" id="nombre" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="apellido" class="form-label">Apellido</label>
+                                                        <input type="text" class="form-control" name="apellido" id="apellido" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="telefono" class="form-label">Teléfono</label>
+                                                        <input type="text" class="form-control" name="telefono" id="telefono" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Correo Electrónico</label>
+                                                        <input type="email" class="form-control" name="email" id="email" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="direccion" class="form-label">Dirección</label>
+                                                        <input type="text" class="form-control" name="direccion" id="direccion">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                                        <input type="date" class="form-control" name="fechaNacimiento" id="fechaNacimiento" required>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Transferencias -->
+                                <div class="tab-pane fade" id="transferencias">
+                                    <h4>Historial de Transacciones</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Origen</th>
+                                                <th>Destino</th>
+                                                <th>Descripción</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="transferencia : ${transferencias}">
+                                                <td th:text="${transferencia.fechaTransferencia}"></td>
+                                                <td th:text="${transferencia.cuentaOrigen.numeroCuenta}"></td>
+                                                <td th:text="${transferencia.cuentaDestino.numeroCuenta}"></td>
+                                                <td th:text="${transferencia.concepto}"></td>
+                                                <td th:text="${transferencia.monto}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
 
                                 <!-- Tab Transacciones -->
@@ -119,3 +276,4 @@
 
     </body>
 </html>
+
