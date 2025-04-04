@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Black Rock Banco</title>
+        <meta charset="UTF-8"/>        
+
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: header}"/>
+
+        <section th:fragment="cambioMoneda" >
+            <div class='row'>
+                <div class='col-md-1'></div>
+                <div class='col-md-10'>
+                    <div class='row p-3'><!--12 columnas-->
+                        <div class='col-md-4'>
+                            <form method="post"
+                                  th:action='@{/conversor/convertir}'
+                                  class='was-validated'>
+                                <div class='card'>
+                                    <div class='card-header bg-primary text-white text-center'>
+                                        <h5 class='card.tittle'>Cambio de Moneda</h5><!--se encuentra en archivos mensages -->
+
+                                    </div>
+                                    <div class='card-body'>
+                                        <div class='mb-3'>
+                                            <label>monedaOrigen</label>
+                                            <select class="form-select" id="monedaOrigen" name="monedaOrigen" required>
+                                                <option th:each="conversor : ${listas}" 
+                                                        th:value="${conversor.monedaOrigen}" 
+                                                        th:text="${conversor.monedaOrigen}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class='mb-3'>
+                                            <label>Monto</label>
+                                            <input type='number'step="0.01" 
+                                                   id="monto"
+                                                   class='form-control'
+                                                   th:value='${monto}'
+                                                   name='monto'
+                                                   required='true'/>
+                                        </div>
+                                        <div class='mb-3'>
+                                            <label>monedaDestino</label>
+                                            <select class="form-select" id="monedaDestino" name="monedaDestino" required>
+                                                <option th:each="conversor : ${listas}" 
+                                                        th:value="${conversor.monedaDestino}" 
+                                                        th:text="${conversor.monedaDestino}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="${resultado}">resultado</label>
+                                            <p class="form-control" id="resultado" th:text="${resultado}"></p>
+                                        </div>
+                                        <div>
+                                            
+                                        </div>
+
+
+                                    </div><!-- finaliza card-body -->
+                                    <div class='card-footer text-center'>
+                                        <button type='submit' class='btn btn-primary'>
+                                            <i class='fas fa-magnifying-glass'></i> Convertir
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!--termina el col-md-4-->
+
+                    </div>
+                </div>
+                <div class='col-md-1'></div>
+            </div>
+        </section>
+
+
+<footer th:replace="~{layout/plantilla :: footer}"/>
+</body>
+</html>
