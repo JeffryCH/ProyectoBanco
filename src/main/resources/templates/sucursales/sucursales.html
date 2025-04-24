@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Sucursales y Cajeros</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        .map-iframe { border-radius: 10px; border: 2px solid #e0e0e0; margin-bottom: 1.5rem; }
+        .branch-card { box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-radius: 12px; }
+    </style>
+</head>
+<body>
+<header th:replace="~{layout/plantilla :: header}"></header>
+<main>
+    <div class="container py-4">
+        <h2 class="mb-4"><i class="bi bi-geo-alt-fill text-info"></i> Sucursales y Cajeros</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card branch-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sucursal Centro</h5>
+                        <p class="card-text">Av. Principal #123, Centro, Ciudad Ficticia<br>Tel: 800 111 222</p>
+                        <iframe class="map-iframe w-100" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.1332%2C19.4326%2C-99.1332%2C19.4326&amp;layer=mapnik&amp;marker=19.4326%2C-99.1332" style="border:1px solid #ccc"></iframe>
+                        <a href="https://www.openstreetmap.org/?mlat=19.4326&amp;mlon=-99.1332#map=15/19.4326/-99.1332" target="_blank">Ver en mapa grande</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card branch-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sucursal Plaza Viva</h5>
+                        <p class="card-text">Calle Falsa #456, Plaza Viva, Ciudad Ficticia<br>Tel: 800 333 444</p>
+                        <iframe class="map-iframe w-100" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.1400%2C19.4300%2C-99.1400%2C19.4300&amp;layer=mapnik&amp;marker=19.4300%2C-99.1400" style="border:1px solid #ccc"></iframe>
+                        <a href="https://www.openstreetmap.org/?mlat=19.4300&amp;mlon=-99.1400#map=15/19.4300/-99.1400" target="_blank">Ver en mapa grande</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4 mt-3">
+            <div class="col-md-6">
+                <div class="card branch-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cajero Express Norte</h5>
+                        <p class="card-text">Av. Norte #789, Ciudad Ficticia<br>Disponible 24/7</p>
+                        <iframe class="map-iframe w-100" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.1500%2C19.4400%2C-99.1500%2C19.4400&amp;layer=mapnik&amp;marker=19.4400%2C-99.1500" style="border:1px solid #ccc"></iframe>
+                        <a href="https://www.openstreetmap.org/?mlat=19.4400&amp;mlon=-99.1500#map=15/19.4400/-99.1500" target="_blank">Ver en mapa grande</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card branch-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cajero Plaza Sur</h5>
+                        <p class="card-text">Plaza Sur, Ciudad Ficticia<br>Disponible 24/7</p>
+                        <iframe class="map-iframe w-100" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.1200%2C19.4200%2C-99.1200%2C19.4200&amp;layer=mapnik&amp;marker=19.4200%2C-99.1200" style="border:1px solid #ccc"></iframe>
+                        <a href="https://www.openstreetmap.org/?mlat=19.4200&amp;mlon=-99.1200#map=15/19.4200/-99.1200" target="_blank">Ver en mapa grande</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout/plantilla :: footer}"></footer>
+</body>
+</html>

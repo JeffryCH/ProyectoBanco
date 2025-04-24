@@ -2,5 +2,5 @@
 package com.ProyectoBanco.domain;
 
 public enum TipoProducto {
-    CUENTA, TARJETA, PRESTAMO, INVERSION
+    Cuenta, Tarjeta, Préstamo, Inversión
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Fragmento: Lista de Preguntas Frecuentes -->
+    <div th:fragment="faqList">
+    <h2 class="mb-4"><i class="bi bi-question-circle-fill text-primary"></i> Preguntas Frecuentes</h2>
+    <div class="accordion" id="faqAccordion">
+        <!-- Ejemplo 1 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                    <i class="bi bi-phone-vibrate me-2 text-success"></i> ¿Cómo contacto a atención al cliente?
+                </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Puedes comunicarte con nuestro centro de atención telefónica 24/7 al <a href="tel:800123456">800 123 456</a> o escribirnos a <a href="mailto:soporte@bancoejemplo.com">soporte@bancoejemplo.com</a>.<br/>
+                    También puedes usar nuestro <a href="/contactenos/contactenos">formulario de contacto</a>.
+                </div>
+            </div>
+        </div>
+        <!-- Ejemplo 2 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                    <i class="bi bi-credit-card-2-front me-2 text-warning"></i> ¿Cómo solicito una nueva tarjeta de débito o crédito?
+                </button>
+            </h2>
+            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Puedes solicitar una tarjeta desde el <a href="/banca/portal">portal de clientes</a> o visitando una <a href="/sucursales">sucursal</a>.<br/>
+                    Si tienes dudas, llama al <a href="tel:800123456">800 123 456</a>.
+                </div>
+            </div>
+        </div>
+        <!-- Ejemplo 3 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                    <i class="bi bi-shield-lock-fill me-2 text-danger"></i> ¿Qué hago si detecto un movimiento sospechoso?
+                </button>
+            </h2>
+            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Llama de inmediato a nuestra línea de seguridad <a href="tel:800987654">800 987 654</a>.<br/>
+                    También puedes bloquear temporalmente tu tarjeta desde el <a href="/banca/portal">portal</a>.<br/>
+                    Consulta más consejos en la sección <a href="/seguridad">Seguridad</a>.
+                </div>
+            </div>
+        </div>
+        <!-- Ejemplo 4 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading4">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                    <i class="bi bi-cash-coin me-2 text-success"></i> ¿Dónde encuentro información sobre créditos y préstamos?
+                </button>
+            </h2>
+            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Visita la sección <a href="/servicios">Servicios</a> para conocer nuestros productos de crédito.<br/>
+                    O acércate a una <a href="/sucursales">sucursal</a> para atención personalizada.
+                </div>
+            </div>
+        </div>
+        <!-- Ejemplo 5 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading5">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                    <i class="bi bi-geo-alt-fill me-2 text-info"></i> ¿Dónde están las sucursales y cajeros automáticos?
+                </button>
+            </h2>
+            <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Consulta el <a href="/sucursales">mapa de sucursales y cajeros</a> para encontrar la ubicación más cercana.<br/>
+                    También puedes llamar al <a href="tel:800123456">800 123 456</a> para asistencia.
+                </div>
+            </div>
+        </div>
+        <!-- Puedes agregar más preguntas y respuestas aquí -->
+    </div>
+    <div class="mt-4 p-3 bg-light rounded border">
+        <strong>¿No encontraste respuesta?</strong> <br/>
+        Escríbenos a <a href="mailto:soporte@bancoejemplo.com">soporte@bancoejemplo.com</a> o llama al <a href="tel:800123456">800 123 456</a>.
+    </div>
+</div>
+</body>
+</html>

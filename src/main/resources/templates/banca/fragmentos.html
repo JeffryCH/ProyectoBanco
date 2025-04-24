@@ -55,6 +55,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="transacciones-tab" data-bs-toggle="tab" href="#transacciones">Transacciones</a>
                                 </li>
+                                
                             </ul>
 
                             <div class="tab-content mt-3">
@@ -88,6 +89,22 @@
                                         <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cambiarContrasenaModal">Cambio de Contraseña</a>
                                         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transferenciaModal">Transferencia</a>
                                         <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalActualizarDatos">Actualizar Información Personal</a>
+                                        <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tipoCambioModal">Tipo de Cambio</a>
+                                    </div>
+
+                                    <!-- Modal para Tipo de Cambio -->
+                                    <div class="modal fade" id="tipoCambioModal" tabindex="-1" aria-labelledby="tipoCambioModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="tipoCambioModalLabel">Tipo de Cambio</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div th:replace="~{conversor/fragmentos :: cambioMonedaModal}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -267,6 +284,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                
                             </div> <!-- Fin Tab Content -->
                         </div>
                     </div>
@@ -276,4 +294,3 @@
 
     </body>
 </html>
-

@@ -32,7 +32,7 @@ public class Producto implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
-    private EstadoProducto estado = EstadoProducto.ACTIVO;
+    private EstadoProducto estado = EstadoProducto.Activo;
 
     @Column(name = "fecha_creacion", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

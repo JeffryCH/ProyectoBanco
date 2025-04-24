@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -19,6 +21,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/conversor")
 public class ConversorController {
+
+    // --- AJAX endpoint para conversión en tiempo real ---
+    @PostMapping("/convertirAjax")
+    @ResponseBody
+    public java.util.Map<String, String> convertirMonedaAjax(
+            @RequestParam java.math.BigDecimal monto,
+            @RequestParam Conversor.Moneda monedaOrigen,
+            @RequestParam Conversor.Moneda monedaDestino) {
+        java.util.Map<String, String> response = new java.util.HashMap<>();
+        try {
+            java.math.BigDecimal montoConvertido = conversorService.calcularMontoConvertido(monto, monedaOrigen, monedaDestino);
+            response.put("resultado", String.format("%.2f %s son %.2f %s.", monto, monedaOrigen, montoConvertido, monedaDestino));
+        } catch (IllegalArgumentException e) {
+            response.put("resultado", "Error: " + e.getMessage());
+        }
+        return response;
+    }
+
 
     @Autowired
     private ConversorService conversorService;
@@ -40,7 +60,11 @@ public class ConversorController {
     }
 
     @GetMapping("/formulario")
-    public String mostrarFormulario(Model model) {
+    public String mostrarFormulario(Model model, jakarta.servlet.http.HttpSession session) {
+        // Si hay cliente logueado, redirigir al portal
+        if (session != null && session.getAttribute("clienteLogueado") != null) {
+            return "redirect:/banca/portal";
+        }
         // Agregar valores iniciales al modelo para la vista
         var listaConversores  = conversorService.obtenerTasasDeConversion();
         model.addAttribute("listas", listaConversores );

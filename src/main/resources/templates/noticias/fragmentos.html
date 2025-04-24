@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Fragmento: Noticias y Actualizaciones Bancarias -->
+    <div th:fragment="noticiasList">
+        <h2 class="mb-4">Noticias y Actualizaciones</h2>
+        <div class="list-group">
+            <div th:each="noticia : ${noticias}" class="card mb-3 shadow-sm border-0" style="max-width: 900px;">
+    <div class="row g-0 align-items-center">
+        <div class="col-md-4">
+            <img th:if="${noticia.imagenUrl != null}" th:src="${noticia.imagenUrl}" class="img-fluid rounded-start w-100 h-100" style="object-fit:cover; min-height:180px;" alt="Imagen noticia"/>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary" th:text="${noticia.titulo}"></h5>
+                <p class="card-text mb-2" th:text="${noticia.descripcion}"></p>
+                <p class="card-text"><small class="text-muted" th:text="${#dates.format(noticia.fecha, 'dd/MM/yyyy')}"></small></p>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}"></head>
+<body>
+<header th:replace="~{layout/plantilla :: header}"></header>
+<main>
+    <div class="container py-4">
+        <div th:replace="~{noticias/fragmentos :: noticiasList}"></div>
+    </div>
+</main>
+<footer th:replace="~{layout/plantilla :: footer}"></footer>
+</body>
+</html>

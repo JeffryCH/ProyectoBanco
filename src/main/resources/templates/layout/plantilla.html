@@ -23,7 +23,7 @@
     <!-- Script para inicializar variables globales -->
     <script th:inline="javascript">
       // Inicializar variable global para el estado de login
-      window.clienteLogueado = [[${session.clienteLogueado != null}]];
+      window.clienteLogueado = [[${session.clienteLogueado != null ? 'true' : 'false'}]];
     </script>
   </head>
   <body>
@@ -82,6 +82,15 @@
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" th:href="@{/productos/productos}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/sucursales}">Sucursales</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/faq/faq}">Preguntas Frecuentes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" th:href="@{/noticias/noticias}">Noticias</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" th:href="@{/nuestros_clientes/nuestrosClientes}">Nuestros Clientes</a>

@@ -121,11 +121,32 @@ function actualizarContadorCarrito(cantidad) {
 // Funciones del Formulario de Contacto
 // ===============================
 
-/**
- * Maneja el envío del formulario de contacto
- * Usado en: templates/contactenos/contactenos.html
- */
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Mantener abierto el modal de tipo de cambio si hay resultado ---
+    try {
+        // Usamos Thymeleaf para inyectar si hay resultadoConversion
+        var resultadoConversion = false;
+        if (typeof window.resultadoConversionFromThymeleaf !== 'undefined') {
+            resultadoConversion = window.resultadoConversionFromThymeleaf;
+        }
+        if (resultadoConversion) {
+            // Activar la pestaña 'Servicios'
+            var serviciosTab = document.getElementById('servicios-tab');
+            if (serviciosTab) {
+                new bootstrap.Tab(serviciosTab).show();
+            }
+            // Mostrar el modal de Tipo de Cambio
+            var tipoCambioModalEl = document.getElementById('tipoCambioModal');
+            if (tipoCambioModalEl) {
+                var tipoCambioModal = new bootstrap.Modal(tipoCambioModalEl);
+                tipoCambioModal.show();
+            }
+        }
+    } catch (e) {
+        // Silenciar errores para no afectar otras funciones
+        console.warn('Error al intentar mantener abierto el modal de tipo de cambio:', e);
+    }
+
     const formularioContacto = document.getElementById("formularioContacto");
     const mensajeAgradecimiento = document.getElementById("mensajeAgradecimiento");
     const contenidoFormulario = document.getElementById("contenidoFormulario");
@@ -169,7 +190,86 @@ function mostrarCampoNegocio() {
 }
 
 // Inicializar los manejadores de eventos cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // --- AJAX para conversión de moneda en tiempo real ---
+    // Soporte AJAX para el TAB de tipo de cambio
+    var formTipoCambioTab = document.getElementById('formTipoCambioTab');
+    if (formTipoCambioTab) {
+        formTipoCambioTab.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var monto = document.getElementById('montoTab').value;
+            var monedaOrigen = document.getElementById('monedaOrigenTab').value;
+            var monedaDestino = document.getElementById('monedaDestinoTab').value;
+
+            fetch('/banca/convertirMonedaAjaxPropio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `monto=${encodeURIComponent(monto)}&monedaOrigen=${encodeURIComponent(monedaOrigen)}&monedaDestino=${encodeURIComponent(monedaDestino)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                var resultadoElem = document.getElementById('resultadoTab');
+                resultadoElem.textContent = data.resultado;
+                if (data.resultado.startsWith('Error')) {
+                    resultadoElem.style.color = 'red';
+                    resultadoElem.style.fontWeight = 'bold';
+                } else {
+                    resultadoElem.style.color = 'green';
+                    resultadoElem.style.fontWeight = 'bold';
+                    document.getElementById('montoTab').value = '';
+                }
+                document.getElementById('montoTab').focus();
+            })
+            .catch(() => {
+                var resultadoElem = document.getElementById('resultadoTab');
+                resultadoElem.textContent = 'Error en la conversión';
+                resultadoElem.style.color = 'red';
+                resultadoElem.style.fontWeight = 'bold';
+            });
+        });
+    }
+
+    // Soporte AJAX para el MODAL de tipo de cambio (IDs originales)
+    var formTipoCambio = document.getElementById('formTipoCambio');
+    if (formTipoCambio) {
+        formTipoCambio.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var monto = document.getElementById('monto').value;
+            var monedaOrigen = document.getElementById('monedaOrigen').value;
+            var monedaDestino = document.getElementById('monedaDestino').value;
+
+            fetch('/banca/convertirMonedaAjaxPropio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `monto=${encodeURIComponent(monto)}&monedaOrigen=${encodeURIComponent(monedaOrigen)}&monedaDestino=${encodeURIComponent(monedaDestino)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                var resultadoElem = document.getElementById('resultado');
+                resultadoElem.textContent = data.resultado;
+                if (data.resultado.startsWith('Error')) {
+                    resultadoElem.style.color = 'red';
+                    resultadoElem.style.fontWeight = 'bold';
+                } else {
+                    resultadoElem.style.color = 'green';
+                    resultadoElem.style.fontWeight = 'bold';
+                    document.getElementById('monto').value = '';
+                }
+                document.getElementById('monto').focus();
+            })
+            .catch(() => {
+                var resultadoElem = document.getElementById('resultado');
+                resultadoElem.textContent = 'Error en la conversión';
+                resultadoElem.style.color = 'red';
+                resultadoElem.style.fontWeight = 'bold';
+            });
+        });
+    }
+
     // Inicializar manejadores para el carrito
     const eliminarBotones = document.querySelectorAll('.eliminar-item');
     if (eliminarBotones.length > 0) {

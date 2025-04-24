@@ -1,0 +1,10 @@
+/* Archivo de estilos base. Puedes personalizar aquí los estilos globales del banco */
+body {
+    background-color: #f8f9fa;
+}
+.card-header.bg-primary {
+    background-color: #2d5c5c !important;
+}
+.card-footer {
+    background-color: #c5e0e0 !important;
+}

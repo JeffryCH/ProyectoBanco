@@ -46,6 +46,9 @@ public class BancaController {
     @Autowired
     private TransferenciaService transferenciaService;
 
+    @Autowired
+    private ConversorService conversorService;
+
     @GetMapping("/portal")
     public String mostrarPortalBanca(Model model, HttpSession session) {
         Cliente usuario = (Cliente) session.getAttribute("clienteLogueado");
@@ -59,7 +62,9 @@ public class BancaController {
         model.addAttribute("servicios", productoService.obtenerTodosServicios());
         model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
         model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
-
+        // Agregar lista de monedas para el fragmento de tipo de cambio
+        var listaConversores = conversorService.obtenerTasasDeConversion();
+        model.addAttribute("listas", listaConversores);
         return "banca/portal";
     }
 
@@ -67,6 +72,24 @@ public class BancaController {
     public String cerrarSesion(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @PostMapping("/convertirMonedaDesdePortal")
+    public String convertirMonedaDesdePortal(
+            @RequestParam BigDecimal monto,
+            @RequestParam Conversor.Moneda monedaOrigen,
+            @RequestParam Conversor.Moneda monedaDestino,
+            Model model,
+            HttpSession session) {
+        try {
+            BigDecimal montoConvertido = conversorService.calcularMontoConvertido(monto, monedaOrigen, monedaDestino);
+            model.addAttribute("resultadoConversion", String.format("%.2f %s son %.2f %s.",
+                    monto, monedaOrigen, montoConvertido, monedaDestino));
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("resultadoConversion", "Error: " + e.getMessage());
+        }
+        // Repoblar el modelo igual que en mostrarPortalBanca
+        return mostrarPortalBanca(model, session);
     }
 
     @GetMapping("/perfil")
@@ -212,5 +235,44 @@ public class BancaController {
         }
 
         return "redirect:/banca/portal";
+    }
+
+    // --- Endpoint AJAX funcional para conversión de moneda ---
+    @PostMapping("/convertirMonedaAjaxPropio")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public java.util.Map<String, String> convertirMonedaAjaxPropio(
+            @RequestParam("monto") String montoStr,
+            @RequestParam("monedaOrigen") String monedaOrigen,
+            @RequestParam("monedaDestino") String monedaDestino) {
+        java.util.Map<String, String> response = new java.util.HashMap<>();
+        try {
+            double monto = Double.parseDouble(montoStr);
+            double resultado = 0;
+            String mensaje = "";
+            // Tasas fijas
+            if (monedaOrigen.equals(monedaDestino)) {
+                resultado = monto;
+            } else if (monedaOrigen.equals("CRC") && monedaDestino.equals("USD")) {
+                resultado = monto * 0.0019;
+            } else if (monedaOrigen.equals("USD") && monedaDestino.equals("CRC")) {
+                resultado = monto * 530.0;
+            } else if (monedaOrigen.equals("CRC") && monedaDestino.equals("EUR")) {
+                resultado = monto * 0.0017;
+            } else if (monedaOrigen.equals("EUR") && monedaDestino.equals("CRC")) {
+                resultado = monto * 590.0;
+            } else if (monedaOrigen.equals("USD") && monedaDestino.equals("EUR")) {
+                resultado = monto * 0.93;
+            } else if (monedaOrigen.equals("EUR") && monedaDestino.equals("USD")) {
+                resultado = monto * 1.07;
+            } else {
+                response.put("resultado", "Conversión no soportada");
+                return response;
+            }
+            mensaje = String.format("%.2f %s son %.2f %s", monto, monedaOrigen, resultado, monedaDestino);
+            response.put("resultado", mensaje);
+        } catch (Exception e) {
+            response.put("resultado", "Error en la conversión");
+        }
+        return response;
     }
 }
