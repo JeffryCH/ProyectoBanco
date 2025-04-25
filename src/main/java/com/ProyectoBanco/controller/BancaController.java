@@ -7,8 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.ResponseEntity;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-import java.util.Map;
-import org.springframework.web.bind.annotation.RequestBody;
-import java.util.HashMap;
-import org.springframework.http.HttpStatus;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
@@ -100,36 +96,38 @@ public class BancaController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @PostMapping("/cambiarContrasena")
-    public String cambiarContrasena(@RequestParam String contrasenaActual,
+    public Object cambiarContrasena(@RequestParam String contrasenaActual,
                                     @RequestParam String contrasenaNueva,
                                     @RequestParam String confirmarContrasena,
                                     HttpSession session,
                                     Model model,
-                                    RedirectAttributes redirectAttributes) {
+                                    RedirectAttributes redirectAttributes,
+                                    jakarta.servlet.http.HttpServletRequest request) {
     /// Obtener el email del usuario autenticado desde la sesión
         Cliente usuario = (Cliente) session.getAttribute("clienteLogueado");
         String emailUsuario = usuario.getEmail();
-        
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         System.out.println("BANCA CONTROLLER - email = "+emailUsuario);
         // Verificar si las contraseñas coinciden
         if (!contrasenaNueva.equals(confirmarContrasena)) {
+            if (isAjax) {
+                return ResponseEntity.ok(java.util.Collections.singletonMap("error", "Las contraseñas nuevas no coinciden."));
+            }
             redirectAttributes.addFlashAttribute("errorMensaje", "Las contraseñas nuevas no coinciden.");
-            return "redirect:/banca/portal"; // Nombre de la vista donde se muestra el formulario
+            return "redirect:/banca/portal";
         }
-        //String contrasenaActual1 = passwordEncoder.encode(contrasenaActual);
-        //String contrasenaNueva1 = passwordEncoder.encode(contrasenaNueva);
-        // Llamamos al servicio para cambiar la contraseña del usuario
-        System.out.println("USUARIO SERVICE = "+ emailUsuario+""+contrasenaActual+""+contrasenaNueva);
         boolean exito = usuarioService.cambiarContrasena(emailUsuario, contrasenaActual, contrasenaNueva);
-        
         if (exito) {
+            if (isAjax) {
+                return ResponseEntity.ok(java.util.Collections.singletonMap("success", "Contraseña actualizada correctamente."));
+            }
             redirectAttributes.addFlashAttribute("successMessage", "Contraseña actualizada correctamente.");
-            System.out.println("MENSAJE DE EXITO!!!!!!!!");
         } else {
+            if (isAjax) {
+                return ResponseEntity.ok(java.util.Collections.singletonMap("error", "La contraseña actual es incorrecta."));
+            }
             redirectAttributes.addFlashAttribute("errorMensaje", "La contraseña actual es incorrecta.");
-            System.out.println("FALLOOOOOO!!!!!!!!");
         }
-
         return "redirect:/banca/portal"; 
     }
     
@@ -146,39 +144,116 @@ public class BancaController {
     }
     
     @PostMapping("/realizarTransferencia")
-    public String realizarTransferencia(@RequestParam Long cuentaOrigen,
+    public Object realizarTransferencia(@RequestParam Long cuentaOrigen,
                                      @RequestParam String cuentaDestino,
                                      @RequestParam String descripcion,
                                      @RequestParam String monto, // El monto se recibe como String y luego se convierte a BigDecimal
                                      HttpSession session,
-                                     Model model) {
+                                     Model model,
+                                     HttpServletRequest request) {
+        System.out.println("[TRANSFERENCIA] LLEGA A realizarTransferencia");
+        System.out.println("[TRANSFERENCIA] Datos recibidos: cuentaOrigen=" + cuentaOrigen + ", cuentaDestino=" + cuentaDestino + ", descripcion=" + descripcion + ", monto=" + monto);
 
         // Obtener el usuario de la sesión
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         Cliente usuario = (Cliente) session.getAttribute("clienteLogueado");
         if (usuario == null) {
+            if (isAjax) {
+                return java.util.Collections.singletonMap("redirect", "/iniciosesion/login");
+            }
             return "redirect:/iniciosesion/login"; // Redirigir si no hay usuario logueado
         }
 
         // Verificar si la cuenta origen y destino son válidas
         Optional<Cuenta> cuentaOrigenOptional = cuentaService.obtenerCuentaPorId(cuentaOrigen);
+        
+        if (!cuentaOrigenOptional.isPresent()) {
+    if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "La cuenta de origen no existe."));
+    // Solo para no-AJAX:
+    model.addAttribute("errorMensaje", "La cuenta de origen no existe.");
+    model.addAttribute("activarTransferencia", true);
+    model.addAttribute("nombreUsuario", usuario.getNombre());
+    model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+    model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+    model.addAttribute("servicios", productoService.obtenerTodosServicios());
+    model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+    model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
+    var listaConversores = conversorService.obtenerTasasDeConversion();
+    model.addAttribute("listas", listaConversores);
+    return "banca/portal";
+}
         Optional<Cuenta> cuentaDestinoOptional = cuentaService.obtenerCuentaPorNumero(cuentaDestino);
-
-        if (!cuentaOrigenOptional.isPresent() || !cuentaDestinoOptional.isPresent()) {
-            model.addAttribute("errorMensaje", "Cuenta origen o destino no válida.");
-            return "redirect:/banca/portal";
-        }
-
+        if (!cuentaDestinoOptional.isPresent()) {
+    if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "La cuenta destino no existe."));
+    // Solo para no-AJAX:
+    model.addAttribute("errorMensaje", "La cuenta destino no existe.");
+    model.addAttribute("activarTransferencia", true);
+    model.addAttribute("nombreUsuario", usuario.getNombre());
+    model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+    model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+    model.addAttribute("servicios", productoService.obtenerTodosServicios());
+    model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+    model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
+    var listaConversores = conversorService.obtenerTasasDeConversion();
+    model.addAttribute("listas", listaConversores);
+    return "banca/portal";
+}
         Cuenta cuentaOrigenObj = cuentaOrigenOptional.get();
         Cuenta cuentaDestinoObj = cuentaDestinoOptional.get();
 
         // Verificar si hay suficiente saldo en la cuenta origen
-        BigDecimal montoTransferencia = new BigDecimal(monto); // Convertir el monto a BigDecimal
+        BigDecimal montoTransferencia;
+        try {
+    montoTransferencia = new BigDecimal(monto);
+} catch (NumberFormatException e) {
+    if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "El monto ingresado no es válido."));
+    // Solo para no-AJAX:
+    model.addAttribute("errorMensaje", "El monto ingresado no es válido.");
+    model.addAttribute("activarTransferencia", true);
+    model.addAttribute("nombreUsuario", usuario.getNombre());
+    model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+    model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+    model.addAttribute("servicios", productoService.obtenerTodosServicios());
+    model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+    model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
+    var listaConversores = conversorService.obtenerTasasDeConversion();
+    model.addAttribute("listas", listaConversores);
+    return "banca/portal";
+}
+        // Validar monto positivo y mayor que cero
+        if (montoTransferencia.compareTo(BigDecimal.ZERO) <= 0) {
+    if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "El monto debe ser mayor a cero para realizar una transferencia."));
+    // Solo para no-AJAX:
+    model.addAttribute("errorMensaje", "El monto debe ser mayor a cero para realizar una transferencia.");
+    model.addAttribute("activarTransferencia", true);
+    model.addAttribute("nombreUsuario", usuario.getNombre());
+    model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+    model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+    model.addAttribute("servicios", productoService.obtenerTodosServicios());
+    model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+    model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
+    var listaConversores = conversorService.obtenerTasasDeConversion();
+    model.addAttribute("listas", listaConversores);
+    return "banca/portal";
+}
         if (cuentaOrigenObj.getSaldo().compareTo(montoTransferencia) < 0) { // Verificar saldo suficiente
-            model.addAttribute("errorMensaje", "Saldo insuficiente.");
-            return "redirect:/banca/portal";
-        }
+    if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "Saldo insuficiente. Por favor, realice un depósito para poder transferir."));
+    // Solo para no-AJAX:
+    model.addAttribute("errorMensaje", "Saldo insuficiente. Por favor, realice un depósito para poder transferir.");
+    model.addAttribute("activarTransferencia", true);
+    model.addAttribute("nombreUsuario", usuario.getNombre());
+    model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+    model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+    model.addAttribute("servicios", productoService.obtenerTodosServicios());
+    model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+    model.addAttribute("transferencias", transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente()));
+    var listaConversores = conversorService.obtenerTasasDeConversion();
+    model.addAttribute("listas", listaConversores);
+    return "banca/portal";
+}
 
         // Realizar la transferencia
+        System.out.println("[TRANSFERENCIA] Realizando descuento y abono en cuentas...");
         cuentaOrigenObj.setSaldo(cuentaOrigenObj.getSaldo().subtract(montoTransferencia)); // Descontamos el monto de la cuenta origen
         cuentaDestinoObj.setSaldo(cuentaDestinoObj.getSaldo().add(montoTransferencia)); // Agregamos el monto a la cuenta destino
 
@@ -190,17 +265,45 @@ public class BancaController {
         transferencia.setConcepto(descripcion); // Asignar la descripción
         transferencia.setFechaTransferencia(new Date()); // Asignar la fecha actual
 
-        // Guardar la transferencia
-        transferenciaService.guardarTransferencia(transferencia);
-
-        // Actualizar las cuentas
-        cuentaService.actualizarCuenta(cuentaOrigenObj);
-        cuentaService.actualizarCuenta(cuentaDestinoObj);
-
-        model.addAttribute("successMessage", "Transferencia realizada con éxito.");
-        return "redirect:/banca/portal"; // Redirigir a la página principal
-    }
-    
+        try {
+            // Guardar la transferencia y actualizar cuentas
+            transferenciaService.guardarTransferencia(transferencia);
+            System.out.println("[TRANSFERENCIA] Transferencia guardada: " + transferencia);
+            cuentaService.actualizarCuenta(cuentaOrigenObj);
+            cuentaService.actualizarCuenta(cuentaDestinoObj);
+            System.out.println("[TRANSFERENCIA] Cuentas actualizadas. Consultando historial...");
+            java.util.List<Transferencia> transferencias = transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente());
+            System.out.println("[TRANSFERENCIA] Transferencias encontradas (después de guardar): " + transferencias.size());
+            if (isAjax) return ResponseEntity.ok(java.util.Collections.singletonMap("success", "Transferencia realizada con éxito."));
+            // Solo para no-AJAX:
+            model.addAttribute("successMessage", "Transferencia realizada con éxito.");
+            model.addAttribute("activarTransferencia", true);
+            model.addAttribute("nombreUsuario", usuario.getNombre());
+            model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+            model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+            model.addAttribute("servicios", productoService.obtenerTodosServicios());
+            model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+            model.addAttribute("transferencias", transferencias);
+            model.addAttribute("listas", conversorService.obtenerTasasDeConversion());
+            return "banca/portal"; // Mantener en la pestaña de transferencia y mostrar historial actualizado
+        } catch (Exception ex) {
+            System.out.println("[TRANSFERENCIA][ERROR] " + ex.getMessage());
+            ex.printStackTrace();
+            if (isAjax) return ResponseEntity.badRequest().body(java.util.Collections.singletonMap("error", "Error inesperado al procesar la transferencia. Intente de nuevo más tarde."));
+            model.addAttribute("errorMensaje", "Error inesperado al procesar la transferencia. Intente de nuevo más tarde.");
+            model.addAttribute("activarTransferencia", true);
+            model.addAttribute("nombreUsuario", usuario.getNombre());
+            model.addAttribute("ultimaConexion", usuario.getUltimoAcceso());
+            model.addAttribute("cuentas", cuentaService.obtenerCuentasPorCliente(usuario.getIdCliente()));
+            model.addAttribute("servicios", productoService.obtenerTodosServicios());
+            model.addAttribute("transacciones", transaccionService.obtenerTransaccionesPorUsuario(usuario.getIdCliente()));
+            java.util.List<Transferencia> transferencias = transferenciaService.obtenerTransferenciasPorUsuario(usuario.getIdCliente());
+            System.out.println("[TRANSFERENCIA][ERROR] Transferencias encontradas (en error): " + transferencias.size());
+            model.addAttribute("transferencias", transferencias);
+            model.addAttribute("listas", conversorService.obtenerTasasDeConversion());
+            return "banca/portal";
+        }
+    }    
     //Método para actualizar la información personal del usuario loguueado
     @PostMapping("/actualizar-datos")
     public String actualizarDatos(

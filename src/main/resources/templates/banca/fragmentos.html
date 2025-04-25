@@ -44,7 +44,7 @@
                             <!-- Tabs -->
                             <ul class="nav nav-tabs" id="bancaTabs">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="cuentas-tab" data-bs-toggle="tab" href="#cuentas">Cuentas</a>
+                                    <a class="nav-link" id="cuentas-tab" data-bs-toggle="tab" href="#cuentas">Cuentas</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="servicios-tab" data-bs-toggle="tab" href="#servicios">Servicios</a>
@@ -55,8 +55,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="transacciones-tab" data-bs-toggle="tab" href="#transacciones">Transacciones</a>
                                 </li>
-                                
                             </ul>
+                            <script th:inline="javascript">
+/*<![CDATA[*/
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.activarPestanaTransferencias === 'function') {
+        activarPestanaTransferencias(/*[[${activarTransferencia}]]*/ false);
+    }
+});
+/*]]>*/
+</script>
 
                             <div class="tab-content mt-3">
                                 <!-- Tab Cuentas -->
@@ -132,18 +140,13 @@
                                                         <label for="confirmarContrasena" class="form-label">Confirmar Contraseña</label>
                                                         <input type="password" class="form-control" id="confirmarContrasena" name="confirmarContrasena" required>
                                                     </div>
-                                                    <div id="errorMensaje" class="text-danger"></div>
-                                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                                </form>
-                                            </div>
-                                            <!-- Mostrar mensajes de error o éxito -->
-                                            <div th:if="${errorMensaje != null}" class="text-danger">
-                                                <p th:text="${errorMensaje}"></p>
-                                            </div>
-
-                                            <div th:if="${successMessage != null}" class="text-success">
-                                                <p th:text="${successMessage}"></p>
-                                            </div>
+                                                    <div id="errorMensaje" class="text-danger">
+    <span th:if="${errorMensaje != null}" th:text="${errorMensaje}"></span>
+    <span th:if="${successMessage != null}" th:text="${successMessage}" class="text-success"></span>
+</div>
+<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+</div>
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +160,14 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form th:action="@{/banca/realizarTransferencia}" method="post" id="formTransferencia">
+                                                <div th:if="${errorMensaje != null}" class="alert alert-danger" role="alert">
+                                                    <span th:text="${errorMensaje}"></span>
+                                                </div>
+                                                <div th:if="${successMessage != null}" class="alert alert-success" role="alert">
+                                                    <span th:text="${successMessage}"></span>
+                                                </div>
+                                                <form id="formTransferencia" autocomplete="off">
+                                                    <div id="mensajeTransferencia"></div>
                                                     <div class="mb-3">
                                                         <label for="cuentaOrigen" class="form-label">Cuenta de Origen</label>
                                                         <select class="form-control" id="cuentaOrigen" name="cuentaOrigen" required>

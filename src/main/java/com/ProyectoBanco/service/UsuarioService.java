@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Date;
-import java.time.ZoneId;
-import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.math.BigDecimal;
 
@@ -20,20 +19,31 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public boolean autenticarUsuario(String email, String contrasena) {
-        Optional<Cliente> clienteOptional = usuarioRepository.findByEmail(email);
-        if (clienteOptional.isPresent()) {
-            Cliente cliente = clienteOptional.get();
-            if(passwordEncoder.matches(contrasena, cliente.getContraseña())){
-                // Actualizar último acceso solo si el login es exitoso
-                LocalDateTime ahora = LocalDateTime.now();
-                Date fechaAcceso = Date.from(ahora.atZone(ZoneId.systemDefault()).toInstant());
-                cliente.setUltimoAcceso(fechaAcceso);
+    Optional<Cliente> clienteOptional = usuarioRepository.findByEmail(email);
+    if (clienteOptional.isPresent()) {
+        Cliente cliente = clienteOptional.get();
+        String hash = cliente.getContraseña();
+        // Si la contraseña guardada parece texto plano (no es BCrypt)
+        if (hash != null && !hash.startsWith("$2a$")) {
+            // Comparar directamente
+            if (contrasena.equals(hash)) {
+                // Migrar a hash seguro
+                String nuevoHash = passwordEncoder.encode(contrasena);
+                cliente.setContraseña(nuevoHash);
+                cliente.setUltimoAcceso(new Date());
                 usuarioRepository.save(cliente);
                 return true;
             }
         }
-        return false;
+        // Comparación normal con hash
+        if (hash != null && passwordEncoder.matches(contrasena, hash)) {
+            cliente.setUltimoAcceso(new Date());
+            usuarioRepository.save(cliente);
+            return true;
+        }
     }
+    return false;
+}
 
     @Transactional
     public Cliente obtenerPorEmail(String email) {

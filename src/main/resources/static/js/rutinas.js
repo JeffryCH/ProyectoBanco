@@ -189,6 +189,185 @@ function mostrarCampoNegocio() {
     }
 }
 
+// ===============================
+// Activar pestaña de Transferencias desde Thymeleaf
+// ===============================
+/**
+ * Activa la pestaña de Transferencias si el flag es true
+ * @param {boolean} flag
+ */
+// ===============================
+// Función global para activar la pestaña de transferencias
+// ===============================
+function activarPestanaTransferencias(flag) {
+    if (!flag) return;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Bootstrap 5: activar tab por id
+        var tabTrigger = document.getElementById('transferencias-tab');
+        if (tabTrigger) {
+            var tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    });
+}
+// Hacerla global explícitamente (por si se usa en inline script)
+window.activarPestanaTransferencias = activarPestanaTransferencias;
+
+// Abrir modal de transferencia automáticamente si hay mensaje de error o éxito desde el backend
+// Usado en portal-banca (fragmentos.html)
+document.addEventListener('DOMContentLoaded', function() {
+    var error = /*[[${errorMensaje != null}]]*/ false;
+    var success = /*[[${successMessage != null}]]*/ false;
+    if (error || success) {
+        var transferenciaModal = new bootstrap.Modal(document.getElementById('transferenciaModal'));
+        transferenciaModal.show();
+    }
+});
+
+// ===============================
+// AJAX para formulario de transferencia
+// ===============================
+
+// ===============================
+// AJAX para cambio de contraseña
+// ===============================
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formCambioContrasena');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(form);
+            fetch('/banca/cambiarContrasena', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(async response => {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    let result = await response.json();
+                    return {json: true, data: result};
+                } else {
+                    // Si la respuesta NO es JSON, puede ser un redirect Spring como texto
+                    const text = await response.text();
+                    if (text.includes('redirect:/banca/portal')) {
+                        window.location.href = '/banca/portal';
+                        return {json: false};
+                    }
+                    // Intentar detectar un redirect por JS (Spring podría devolver un HTML con script)
+                    const redirectMatch = text.match(/window\.location\.replace\(['"]([^'"]+)['"]\)/);
+                    if (redirectMatch) {
+                        window.location.href = redirectMatch[1];
+                    } else {
+                        // Si no se puede extraer, recarga la página
+                        window.location.reload();
+                    }
+                    return {json: false};
+                }
+            })
+            .then(resultObj => {
+                if (!resultObj.json) return;
+                const result = resultObj.data;
+                const mensajeDiv = document.getElementById('errorMensaje');
+                if (result.error) {
+                    mensajeDiv.textContent = result.error;
+                    mensajeDiv.classList.remove('text-success');
+                    mensajeDiv.classList.add('text-danger');
+                } else if (result.success) {
+                    mensajeDiv.textContent = result.success;
+                    mensajeDiv.classList.remove('text-danger');
+                    mensajeDiv.classList.add('text-success');
+                    form.reset();
+                    setTimeout(() => {
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('cambiarContrasenaModal'));
+                        if (modal) modal.hide();
+                        mensajeDiv.textContent = '';
+                    }, 1500);
+                }
+            })
+            .catch((err) => {
+                const mensajeDiv = document.getElementById('errorMensaje');
+                mensajeDiv.textContent = err.message || 'Error al cambiar la contraseña.';
+                mensajeDiv.classList.remove('text-success');
+                mensajeDiv.classList.add('text-danger');
+            });
+        });
+    }
+});
+// ===============================
+// AJAX para formulario de transferencia (Corregido)
+// ===============================
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Transferencia ---
+    const form = document.getElementById('formTransferencia');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(form);
+            fetch('/banca/realizarTransferencia', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(async response => {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    let result = await response.json();
+                    return {json: true, data: result};
+                } else {
+                    // Si la respuesta NO es JSON, probablemente es un redirect HTML
+                    const text = await response.text();
+                    if (text.includes('redirect:/banca/portal')) {
+                        window.location.href = '/banca/portal';
+                        return {json: false};
+                    }
+                    // Intentar detectar un redirect por JS
+                    const redirectMatch = text.match(/window\.location\.replace\(['"]([^'"]+)['"]\)/);
+                    if (redirectMatch) {
+                        window.location.href = redirectMatch[1];
+                    } else {
+                        window.location.reload();
+                    }
+                    return {json: false};
+                }
+            })
+            .then(resultObj => {
+                if (!resultObj.json) return;
+                const result = resultObj.data;
+                const mensajeDiv = document.getElementById('mensajeTransferencia');
+                if (result.error) {
+                    mensajeDiv.textContent = result.error;
+                    mensajeDiv.classList.remove('text-success');
+                    mensajeDiv.classList.add('text-danger');
+                } else if (result.success) {
+                    mensajeDiv.textContent = result.success;
+                    mensajeDiv.classList.remove('text-danger');
+                    mensajeDiv.classList.add('text-success');
+                    setTimeout(() => {
+                        // Cierra el modal y limpia el mensaje
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('transferenciaModal'));
+                        if (modal) modal.hide();
+                        mensajeDiv.textContent = '';
+                        form.reset();
+                        window.location.reload(); // Refresca para ver la transferencia en el historial
+                    }, 1500); // Solo recarga si fue éxito
+                }
+            })
+            .catch((err) => {
+                console.error('[TRANSFERENCIA][JS][ERROR] Error en fetch:', err);
+                const mensajeDiv = document.getElementById('mensajeTransferencia');
+                mensajeDiv.textContent = err.message || 'Error al realizar la transferencia.';
+                mensajeDiv.classList.remove('text-success');
+                mensajeDiv.classList.add('text-danger');
+            });
+        });
+    }
+});
+
 // Inicializar los manejadores de eventos cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     // --- AJAX para conversión de moneda en tiempo real ---
