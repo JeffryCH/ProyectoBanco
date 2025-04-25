@@ -245,30 +245,15 @@ public class BancaController {
             @RequestParam("monedaOrigen") String monedaOrigen,
             @RequestParam("monedaDestino") String monedaDestino) {
         java.util.Map<String, String> response = new java.util.HashMap<>();
+
         try {
-            double monto = Double.parseDouble(montoStr);
-            double resultado = 0;
-            String mensaje = "";
-            // Tasas fijas
-            if (monedaOrigen.equals(monedaDestino)) {
-                resultado = monto;
-            } else if (monedaOrigen.equals("CRC") && monedaDestino.equals("USD")) {
-                resultado = monto * 0.0019;
-            } else if (monedaOrigen.equals("USD") && monedaDestino.equals("CRC")) {
-                resultado = monto * 530.0;
-            } else if (monedaOrigen.equals("CRC") && monedaDestino.equals("EUR")) {
-                resultado = monto * 0.0017;
-            } else if (monedaOrigen.equals("EUR") && monedaDestino.equals("CRC")) {
-                resultado = monto * 590.0;
-            } else if (monedaOrigen.equals("USD") && monedaDestino.equals("EUR")) {
-                resultado = monto * 0.93;
-            } else if (monedaOrigen.equals("EUR") && monedaDestino.equals("USD")) {
-                resultado = monto * 1.07;
-            } else {
-                response.put("resultado", "Conversión no soportada");
-                return response;
-            }
-            mensaje = String.format("%.2f %s son %.2f %s", monto, monedaOrigen, resultado, monedaDestino);
+            BigDecimal monto = new BigDecimal(montoStr);
+            Conversor.Moneda monedaOrigenEnum = Conversor.Moneda.valueOf(monedaOrigen);
+            Conversor.Moneda monedaDestinoEnum = Conversor.Moneda.valueOf(monedaDestino);
+
+            BigDecimal montoConvertido = conversorService.calcularMontoConvertido(monto, monedaOrigenEnum, monedaDestinoEnum);
+
+            String mensaje = String.format("%.2f %s son %.2f %s", monto, monedaOrigen, montoConvertido, monedaDestino);
             response.put("resultado", mensaje);
         } catch (Exception e) {
             response.put("resultado", "Error en la conversión");

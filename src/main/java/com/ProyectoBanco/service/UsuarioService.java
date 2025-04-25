@@ -21,18 +21,14 @@ public class UsuarioService {
 
     public boolean autenticarUsuario(String email, String contrasena) {
         Optional<Cliente> clienteOptional = usuarioRepository.findByEmail(email);
-        System.out.println("CONTRASEÑA DE LOGIN RECIBIDA = "+contrasena);
         if (clienteOptional.isPresent()) {
             Cliente cliente = clienteOptional.get();
-            // Convertir LocalDateTime a Date
-            LocalDateTime ahora = LocalDateTime.now();
-            Date fechaAcceso = Date.from(ahora.atZone(ZoneId.systemDefault()).toInstant());
-            // Actualizar el último acceso con la fecha convertida
-            cliente.setUltimoAcceso(fechaAcceso);
-            usuarioRepository.save(cliente);  // Guardar los cambios en la base de datos
-            System.out.println("CONTRASEÑA DENTRO DE CLIENTE RECIBIDO = "+cliente.getContraseña());
-            // Comparación de contraseñas
-            if(!passwordEncoder.matches(contrasena, cliente.getContraseña())){
+            if(passwordEncoder.matches(contrasena, cliente.getContraseña())){
+                // Actualizar último acceso solo si el login es exitoso
+                LocalDateTime ahora = LocalDateTime.now();
+                Date fechaAcceso = Date.from(ahora.atZone(ZoneId.systemDefault()).toInstant());
+                cliente.setUltimoAcceso(fechaAcceso);
+                usuarioRepository.save(cliente);
                 return true;
             }
         }
